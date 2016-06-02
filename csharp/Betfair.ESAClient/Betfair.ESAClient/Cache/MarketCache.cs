@@ -17,6 +17,11 @@ namespace Betfair.ESAClient.Cache
     {
         private readonly ConcurrentDictionary<string, Market> _markets = new ConcurrentDictionary<string, Market>();
         
+        public MarketCache()
+        {
+            IsMarketRemovedOnClose = true;
+        }
+
         /// <summary>
         /// Conflation indicates slow consumption
         /// </summary>
@@ -107,7 +112,7 @@ namespace Betfair.ESAClient.Cache
         /// Wether markets are automatically removed on close
         /// (default is true)
         /// </summary>
-        public bool IsMarketRemovedOnClose { get; set; } = true;
+        public bool IsMarketRemovedOnClose { get; set; }
 
         /// <summary>
         /// Event for each market change

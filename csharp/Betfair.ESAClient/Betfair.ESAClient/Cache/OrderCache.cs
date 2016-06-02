@@ -14,6 +14,11 @@ namespace Betfair.ESAClient.Cache
     {
         private readonly ConcurrentDictionary<string, OrderMarket> _markets = new ConcurrentDictionary<string, OrderMarket>();
 
+        public OrderCache()
+        {
+            IsOrderMarketRemovedOnClose = true;
+        }
+
         public void OnOrderChange(ChangeMessage<OrderMarketChange> changeMessage)
         {
             if (changeMessage.IsStartOfNewSubscription)
@@ -92,7 +97,7 @@ namespace Betfair.ESAClient.Cache
         /// Wether order markets are automatically removed on close
         /// (default is true)
         /// </summary>
-        public bool IsOrderMarketRemovedOnClose { get; set; } = true;
+        public bool IsOrderMarketRemovedOnClose { get; set; }
 
         /// <summary>
         /// Event for each order market change
