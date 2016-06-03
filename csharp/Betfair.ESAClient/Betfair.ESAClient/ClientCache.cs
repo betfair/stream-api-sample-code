@@ -83,6 +83,21 @@ namespace Betfair.ESAClient
         }
 
         /// <summary>
+        /// Set a common requested conflation rate (this slows rate of changes down) in milliseconds.
+        /// </summary>
+        public long? ConflatMs
+        {
+            get
+            {
+                return _client.ConflateMs;
+            }
+            set
+            {
+                _client.ConflateMs = value;
+            }
+        }
+
+        /// <summary>
         /// Subscribe to all orders. (starting the client if needed).
         /// </summary>
         public void SubscribeOrders()

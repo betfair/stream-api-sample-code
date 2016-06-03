@@ -57,6 +57,7 @@
   <ItemGroup>
     <Compile Include="Auth\AppKeyAndSessionProviderTest.cs" />
     <Compile Include="BaseTest.cs" />
+    <Compile Include="ClientCacheTest.cs" />
     <Compile Include="ClientTest.cs" />
     <Compile Include="Impl\RequestResponseProcessorTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -24,15 +24,20 @@ namespace Betfair.ESAClient.Test
 
         public TestContext TestContext { get; set; }
 
+        public string SsoHost { get { return (string)TestContext.Properties["SsoHost"]; } }
+        public string AppKey { get { return (string)TestContext.Properties["AppKey"]; } }
+        public string UserName { get { return (string)TestContext.Properties["UserName"]; } }
+        public string Password { get { return (string)TestContext.Properties["Password"]; } }
+
         public AppKeyAndSessionProvider ValidSessionProvider
         {
             get
             {
                 return new AppKeyAndSessionProvider(
-                    (string)TestContext.Properties["SsoHost"],
-                    (string)TestContext.Properties["AppKey"],
-                    (string)TestContext.Properties["UserName"],
-                    (string)TestContext.Properties["Password"]);
+                    SsoHost,
+                    AppKey,
+                    UserName,
+                    Password);
             }
         }
 
@@ -48,7 +53,7 @@ namespace Betfair.ESAClient.Test
         {
             get
             {
-                return new AppKeyAndSessionProvider(AppKeyAndSessionProvider.SSO_HOST_COM, "a", "b", "c");
+                return new AppKeyAndSessionProvider(AppKeyAndSessionProvider.SSO_HOST_COM, "appkey", "username", "password");
             }
         }
 

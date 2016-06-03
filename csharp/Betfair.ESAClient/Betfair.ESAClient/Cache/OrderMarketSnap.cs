@@ -8,8 +8,17 @@ namespace Betfair.ESAClient.Cache
 {
     public class OrderMarketSnap
     {
-        public bool IsClosed { get; internal set; }
         public string MarketId { get; internal set; }
+        public bool IsClosed { get; internal set; }
         public IEnumerable<OrderMarketRunnerSnap> OrderMarketRunners { get; internal set; }
+
+        public override string ToString()
+        {
+            return "OrderMarketSnap{" +
+                "MarketId=" + MarketId+
+                ", IsClosed=" + IsClosed +
+                ", OrderMarketRunners=" + String.Join(", ", OrderMarketRunners) +
+                "}";
+        }
     }
 }

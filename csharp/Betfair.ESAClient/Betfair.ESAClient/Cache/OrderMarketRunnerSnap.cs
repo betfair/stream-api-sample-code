@@ -16,7 +16,7 @@ namespace Betfair.ESAClient.Cache
         public override string ToString()
         {
             return "OrderMarketRunnerSnap{" +
-                "UnmatchedOrders=" + String.Join(", ", UnmatchedOrders) +
+                "UnmatchedOrders=" + String.Join(", ", UnmatchedOrders.Values) +
                 ", MatchedLay=" + String.Join(", ", MatchedLay) +
                 ", MatchedBack=" + String.Join(", ", MatchedBack) +
                 "}";
