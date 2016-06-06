@@ -9,7 +9,27 @@
     <packaging>pom</packaging>
     <version>1.0-SNAPSHOT</version>
     <build>
+        <resources>
+            <resource>
+                <!-- for use in CI - fills out templated credentials for test cases -->
+                <includes ><include>esa-csharp.runsettings</include></includes>
+                <filtering>true</filtering>
+                <directory>${project.basedir}</directory>
+                <targetPath>${user.home}\stream-api-sample-code</targetPath>
+            </resource>
+        </resources>
         <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-resources-plugin</artifactId>
+                <version>3.0.0</version>
+                <configuration>
+                    <!-- specify UTF-8, ISO-8859-1 or any other file encoding -->
+                    <encoding>UTF-8</encoding>
+                    <supportMultiLineFiltering>true</supportMultiLineFiltering>
+                    <addDefaultExcludes>false</addDefaultExcludes>
+                </configuration>
+            </plugin>
             <plugin>
                 <groupId>io.swagger</groupId>
                 <artifactId>swagger-codegen-maven-plugin</artifactId>

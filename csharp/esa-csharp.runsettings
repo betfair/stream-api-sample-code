@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- File name extension must be .runsettings -->
+<!-- this file is populated by CI server and moved under user home-->
+<RunSettings>
+    <TestRunParameters>
+        <Parameter name="UserName" value="${UserName}"/>
+        <Parameter name="Password" value="${Password}"/>
+        <Parameter name="AppKey" value="${AppKey}"/>
+        <Parameter name="SsoHost" value="identitysso.betfair.com"/>
+    </TestRunParameters>
+</RunSettings>
