@@ -169,10 +169,19 @@ namespace Betfair.ESAClient.Cache
 
     public class MarketChangedEventArgs : EventArgs
     {
+        /// <summary>
+        /// The raw change message that was just applied
+        /// </summary>
         public MarketChange Change { get; internal set; }
 
+        /// <summary>
+        /// The market changed - this is reference invariant
+        /// </summary>
         public Market Market { get; internal set; }
 
+        /// <summary>
+        /// Takes or returns an existing immutable snap of the market.
+        /// </summary>
         public MarketSnap Snap
         {
             get

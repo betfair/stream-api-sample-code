@@ -18,7 +18,7 @@ namespace Betfair.ESAClient.Cache
         public MarketDefinition MarketDefinition { get; internal set; }
         public string MarketId { get; internal set; }
         public IList<MarketRunnerSnap> MarketRunners { get; internal set; }
-        public double Tv { get; internal set; }
+        public double TradedVolume { get; internal set; }
 
         public override string ToString()
         {
@@ -26,7 +26,7 @@ namespace Betfair.ESAClient.Cache
                 "MarketId=" + MarketId +
                 ", MarketDefinition=" + MarketDefinition +
                 ", MarketRunners=" + String.Join(", ", MarketRunners) +
-                ", Tv=" + Tv +
+                ", TradedVolume=" + TradedVolume +
                 "}";
         }
     }

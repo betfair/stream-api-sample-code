@@ -50,7 +50,7 @@ namespace Betfair.ESAClient.Cache
             newSnap.MarketId = _marketId;
             newSnap.MarketDefinition = _marketDefinition;
             newSnap.MarketRunners = _marketRunners.Values.Select(runner => runner.Snap).ToList();
-            newSnap.Tv = Utils.SelectPrice(isImage, ref _tv, marketChange.Tv);
+            newSnap.TradedVolume = Utils.SelectPrice(isImage, ref _tv, marketChange.Tv);
             _snap = newSnap;
         }
 

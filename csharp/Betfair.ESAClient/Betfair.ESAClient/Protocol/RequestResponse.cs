@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace Betfair.ESAClient.Protocol
 {
+    /// <summary>
+    /// Wraps a standard completion source to create a pairing of request message to status message
+    /// </summary>
     public class RequestResponse
     {
         private readonly TaskCompletionSource<StatusMessage> _completionSource = new TaskCompletionSource<StatusMessage>();

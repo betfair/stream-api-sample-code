@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using Tectil.NCommand;
 using Tectil.NCommand.Contract;
@@ -115,8 +116,8 @@ namespace Betfair.ESAConsoleApp
             foreach (MarketRunnerSnap runner in market.MarketRunners.OrderBy(mr => mr.Definition.SortPriority))
             {
                 MarketRunnerPrices snap = runner.Prices;
-                table.AddRow(null, runner.RunnerId.SelectionId, GetLevel(snap.Batb, 0).Price, GetLevel(snap.Batl, 0).Price);
-                table.AddRow(null, null, GetLevel(snap.Batb, 0).Size, GetLevel(snap.Batl, 0).Size);
+                table.AddRow(null, runner.RunnerId.SelectionId, GetLevel(snap.BestAvailableToBack, 0).Price, GetLevel(snap.BestAvailableToLay, 0).Price);
+                table.AddRow(null, null, GetLevel(snap.BestAvailableToBack, 0).Size, GetLevel(snap.BestAvailableToLay, 0).Size);
             }
             table.Write();
         }

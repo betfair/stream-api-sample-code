@@ -8,6 +8,15 @@ using System.Threading.Tasks;
 
 namespace Betfair.ESAClient.Protocol
 {
+    /// <summary>
+    /// Generic subscription handler for change messages:
+    /// 1) Tracks clocks to facilitate resubscripiton
+    /// 2) Provides useful timings for initial image
+    /// 3) Supports the ability to re-combine segmented messages to retain event level atomicity
+    /// </summary>
+    /// <typeparam name="S">Subscription request message type</typeparam>
+    /// <typeparam name="C">Change message type</typeparam>
+    /// <typeparam name="I">Change message item type</typeparam>
     public class SubscriptionHandler<S,C,I> where C : ChangeMessage<I> where S : RequestMessage
     {
         private int _subscriptionId;

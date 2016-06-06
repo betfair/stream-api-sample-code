@@ -8,6 +8,9 @@ using Betfair.ESASwagger.Model;
 
 namespace Betfair.ESAClient.Cache
 {
+    /// <summary>
+    /// The cached state of the market
+    /// </summary>
     public class OrderMarket
     {
         private readonly OrderCache _orderCache;
@@ -68,6 +71,9 @@ namespace Betfair.ESAClient.Cache
 
         public bool IsClosed { get; private set; }
 
+        /// <summary>
+        /// Takes or returns an existing immutable snap of the market.
+        /// </summary>
         public OrderMarketSnap Snap
         {
             get

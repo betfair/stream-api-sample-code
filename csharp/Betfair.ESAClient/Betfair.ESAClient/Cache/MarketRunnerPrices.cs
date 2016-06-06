@@ -13,52 +13,52 @@ namespace Betfair.ESAClient.Cache
     {
         public static readonly MarketRunnerPrices EMPTY = new MarketRunnerPrices()
         {
-            Atl = PriceSize.EmptyList,
-            Atb = PriceSize.EmptyList,
-            Trd = PriceSize.EmptyList,
-            Spb = PriceSize.EmptyList,
-            Spl = PriceSize.EmptyList,
+            AvailableToLay = PriceSize.EmptyList,
+            AvailableToBack = PriceSize.EmptyList,
+            Traded = PriceSize.EmptyList,
+            StartingPriceBack = PriceSize.EmptyList,
+            StartingPriceLay = PriceSize.EmptyList,
 
-            Batb = LevelPriceSize.EmptyList,
-            Batl = LevelPriceSize.EmptyList,
-            Bdatb = LevelPriceSize.EmptyList,
-            Bdatl = LevelPriceSize.EmptyList,
+            BestAvailableToBack = LevelPriceSize.EmptyList,
+            BestAvailableToLay = LevelPriceSize.EmptyList,
+            BestDisplayAvailableToBack = LevelPriceSize.EmptyList,
+            BestDisplayAvailableToLay = LevelPriceSize.EmptyList,
         };
 
-        public IList<PriceSize> Atl { get; internal set; } 
-        public IList<PriceSize> Atb { get; internal set; }
-        public IList<PriceSize> Trd { get; internal set; }
-        public IList<PriceSize> Spb { get; internal set; }
-        public IList<PriceSize> Spl { get; internal set; }
+        public IList<PriceSize> AvailableToLay { get; internal set; } 
+        public IList<PriceSize> AvailableToBack { get; internal set; }
+        public IList<PriceSize> Traded { get; internal set; }
+        public IList<PriceSize> StartingPriceBack { get; internal set; }
+        public IList<PriceSize> StartingPriceLay { get; internal set; }
 
-        public IList<LevelPriceSize> Batb { get; internal set; }
-        public IList<LevelPriceSize> Batl { get; internal set; }
-        public IList<LevelPriceSize> Bdatb { get; internal set; }
-        public IList<LevelPriceSize> Bdatl { get; internal set; }
+        public IList<LevelPriceSize> BestAvailableToBack { get; internal set; }
+        public IList<LevelPriceSize> BestAvailableToLay { get; internal set; }
+        public IList<LevelPriceSize> BestDisplayAvailableToBack { get; internal set; }
+        public IList<LevelPriceSize> BestDisplayAvailableToLay { get; internal set; }
 
-        public double Ltp { get; internal set; }
-        public double Spn { get; internal set; }
-        public double Spf { get; internal set; }
-        public double Tv { get; internal set; }
+        public double LastTradedPrice { get; internal set; }
+        public double StartingPriceNear { get; internal set; }
+        public double StartingPriceFar { get; internal set; }
+        public double TradedVolume { get; internal set; }
 
         public override string ToString()
         {
             return "MarketRunnerPrices{" +
-                "Atl=" + String.Join(", ", Atl) +
-                ", Atb=" + String.Join(", ", Atb) +
-                ", Trd=" + String.Join(", ", Trd) +
-                ", Spb=" + String.Join(", ", Spb) +
-                ", Spl=" + String.Join(", ", Spl) +
+                "AvailableToLay=" + String.Join(", ", AvailableToLay) +
+                ", AvailableToBack=" + String.Join(", ", AvailableToBack) +
+                ", Traded=" + String.Join(", ", Traded) +
+                ", StartingPriceBack=" + String.Join(", ", StartingPriceBack) +
+                ", StartingPriceLay=" + String.Join(", ", StartingPriceLay) +
 
-                ", Batb=" + String.Join(", ", Batb) +
-                ", Batl=" + String.Join(", ", Batl) +
-                ", Bdatb=" + String.Join(", ", Bdatb) +
-                ", Bdatl=" + String.Join(", ", Bdatl) +
+                ", BestAvailableToBack=" + String.Join(", ", BestAvailableToBack) +
+                ", BestAvailableToLay=" + String.Join(", ", BestAvailableToLay) +
+                ", BestDisplayAvailableToBack=" + String.Join(", ", BestDisplayAvailableToBack) +
+                ", BestDisplayAvailableToLay=" + String.Join(", ", BestDisplayAvailableToLay) +
 
-                ", Ltp=" + Ltp +
-                ", Spn=" + Spn +
-                ", Spf=" + Spf +
-                ", Tv=" + Tv +
+                ", LastTradedPrice=" + LastTradedPrice +
+                ", StartingPriceNear=" + StartingPriceNear +
+                ", StartingPriceFar=" + StartingPriceFar +
+                ", TradedVolume=" + TradedVolume +
                 "}";
         }
     }

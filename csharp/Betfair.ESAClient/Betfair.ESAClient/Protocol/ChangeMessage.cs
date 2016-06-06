@@ -6,6 +6,10 @@ using System.Threading.Tasks;
 
 namespace Betfair.ESAClient.Protocol
 {
+    /// <summary>
+    /// Adapted version of a change message.
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
     public class ChangeMessage <T>
     {
         private readonly DateTime _arrivalTime;

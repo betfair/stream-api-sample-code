@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace Betfair.ESAClient.Protocol
 {
+    /// <summary>
+    /// Exception used by api to raise a status fail.
+    /// </summary>
     public class StatusException : Exception
     {
         public readonly StatusMessage.ErrorCodeEnum ErrorCode;

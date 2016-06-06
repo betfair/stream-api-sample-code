@@ -53,23 +53,23 @@ namespace Betfair.ESAClient.Cache
             MarketRunnerPrices newPrices = new MarketRunnerPrices();
 
 
-            newPrices.Atl = _atlPrices.OnPriceChange(isImage, runnerChange.Atl);
-            newPrices.Atb = _atbPrices.OnPriceChange(isImage, runnerChange.Atb);
-            newPrices.Trd = _trdPrices.OnPriceChange(isImage, runnerChange.Trd);
-            newPrices.Spb = _spbPrices.OnPriceChange(isImage, runnerChange.Spb);
-            newPrices.Spl = _splPrices.OnPriceChange(isImage, runnerChange.Spl);
+            newPrices.AvailableToLay = _atlPrices.OnPriceChange(isImage, runnerChange.Atl);
+            newPrices.AvailableToBack = _atbPrices.OnPriceChange(isImage, runnerChange.Atb);
+            newPrices.Traded = _trdPrices.OnPriceChange(isImage, runnerChange.Trd);
+            newPrices.StartingPriceBack = _spbPrices.OnPriceChange(isImage, runnerChange.Spb);
+            newPrices.StartingPriceLay = _splPrices.OnPriceChange(isImage, runnerChange.Spl);
 
 
-            newPrices.Batb = _batbPrices.OnPriceChange(isImage, runnerChange.Batb);
-            newPrices.Batl = _batlPrices.OnPriceChange(isImage, runnerChange.Batl);
-            newPrices.Bdatb = _bdatbPrices.OnPriceChange(isImage, runnerChange.Bdatb);
-            newPrices.Bdatl = _bdatlPrices.OnPriceChange(isImage, runnerChange.Bdatl);
+            newPrices.BestAvailableToBack = _batbPrices.OnPriceChange(isImage, runnerChange.Batb);
+            newPrices.BestAvailableToLay = _batlPrices.OnPriceChange(isImage, runnerChange.Batl);
+            newPrices.BestDisplayAvailableToBack = _bdatbPrices.OnPriceChange(isImage, runnerChange.Bdatb);
+            newPrices.BestDisplayAvailableToLay = _bdatlPrices.OnPriceChange(isImage, runnerChange.Bdatl);
 
 
-            newPrices.Spn = Utils.SelectPrice(isImage, ref _spn, runnerChange.Spn);
-            newPrices.Spf = Utils.SelectPrice(isImage, ref _spf, runnerChange.Spf);
-            newPrices.Ltp = Utils.SelectPrice(isImage, ref _ltp, runnerChange.Ltp); 
-            newPrices.Tv = Utils.SelectPrice(isImage, ref _tv, runnerChange.Tv);
+            newPrices.StartingPriceNear = Utils.SelectPrice(isImage, ref _spn, runnerChange.Spn);
+            newPrices.StartingPriceFar = Utils.SelectPrice(isImage, ref _spf, runnerChange.Spf);
+            newPrices.LastTradedPrice = Utils.SelectPrice(isImage, ref _ltp, runnerChange.Ltp); 
+            newPrices.TradedVolume = Utils.SelectPrice(isImage, ref _tv, runnerChange.Tv);
 
             //copy on write
             _runnerPrices = newPrices;
@@ -91,6 +91,9 @@ namespace Betfair.ESAClient.Cache
             }
         }
 
+        /// <summary>
+        /// Takes or returns an existing immutable snap of the runner.
+        /// </summary>
         public MarketRunnerSnap Snap
         {
             get

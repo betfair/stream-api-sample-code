@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace Betfair.ESAClient.Protocol
 {
+    /// <summary>
+    /// Adapts market or order changes to a common change message
+    /// </summary>
     public class ChangeMessageFactory
     {
 
