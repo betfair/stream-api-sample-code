@@ -42,7 +42,7 @@ public class Market {
         newSnap.setMarketId(marketId);
         newSnap.setMarketDefinition(marketDefinition);
         newSnap.setMarketRunners(marketRunners.entrySet().stream().map(l -> l.getValue().getSnap()).collect(Collectors.toList()));
-        newSnap.setTradedVolume(Utils.selectPrice(isImage, tv, marketChange.getTv()));
+        newSnap.setTradedVolume(tv = Utils.selectPrice(isImage, tv, marketChange.getTv()));
         snap = newSnap;
     }
 
