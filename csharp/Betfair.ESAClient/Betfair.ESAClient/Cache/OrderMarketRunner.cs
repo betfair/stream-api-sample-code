@@ -47,10 +47,11 @@ namespace Betfair.ESAClient.Cache
 
 
             OrderMarketRunnerSnap newSnap = new OrderMarketRunnerSnap();
+            newSnap.RunnerId = _runnerId;
             newSnap.UnmatchedOrders = new Dictionary<string, Order>(_unmatchedOrders);
 
             newSnap.MatchedLay = _matchedLay.OnPriceChange(isImage, orderRunnerChange.Ml);
-            newSnap.MatchedBack = _matchedLay.OnPriceChange(isImage, orderRunnerChange.Mb);
+            newSnap.MatchedBack = _matchedBack.OnPriceChange(isImage, orderRunnerChange.Mb);
 
             _snap = newSnap;
         }

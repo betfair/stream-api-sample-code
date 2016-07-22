@@ -38,7 +38,7 @@ namespace Betfair.ESAClient.Protocol
             _ttlm = Stopwatch.StartNew();
         }
 
-        public void Cancel()
+        internal void Cancel()
         {
             //unwind waiters
             _subscriptionComplete.TrySetCanceled();

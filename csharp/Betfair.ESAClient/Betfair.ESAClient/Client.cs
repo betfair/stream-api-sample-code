@@ -163,6 +163,11 @@ namespace Betfair.ESAClient
         public bool AutoReconnect { get; set; }
 
         /// <summary>
+        /// Last connect time
+        /// </summary>
+        public DateTime LastConnectTime { get; private set; }
+
+        /// <summary>
         /// Wether to log change messages and if so at what character trunctation 
         /// (default is 0 which is off)
         /// </summary>
@@ -192,6 +197,7 @@ namespace Betfair.ESAClient
                 _processor.ChangeHandler = value;
             }
         }
+
 
         /// <summary>
         /// Starts a connection (synchronously).
@@ -226,8 +232,6 @@ namespace Betfair.ESAClient
 
                 //Start keep alive timer
                 _keepAliveTimer = new Timer(KeepAliveCheck, null, Timeout, Timeout);
-                _keepAliveTimer.Dispose();
-
 
                 ConnectAndAuthenticate();
 
@@ -385,6 +389,8 @@ namespace Betfair.ESAClient
         /// </summary>
         private void ConnectSocket()
         {
+            LastConnectTime = DateTime.UtcNow;
+
             //Disconnect socket
             Disconnect();
 
@@ -482,11 +488,12 @@ namespace Betfair.ESAClient
 
         private void TryReconnect()
         {
-            if(ReconnectCounter != 0)
+            if(DateTime.UtcNow - LastConnectTime < ReconnectBackOff)
             {
                 //Not first disconnect
                 lock (_retryLock)
                 {
+                    Trace.TraceInformation("Reconnect backoff for {0}ms", ReconnectBackOff);
                     Monitor.Wait(_retryLock, ReconnectBackOff);
                 }
             }
@@ -518,27 +525,34 @@ namespace Betfair.ESAClient
 
         private void ConnectAndAuthenticateAndResubscribe()
         {
-            //Connect and auth
-            ConnectAndAuthenticate();
-
-            //Resub markets
-            MarketSubscriptionMessage marketSubscription = _processor.MarketResubscribeMessage;
-            if (marketSubscription != null)
+            try
             {
-                Trace.TraceInformation("Resubscribe to market subscription.");
-                MarketSubscription(marketSubscription);
-            }
+                //Connect and auth
+                ConnectAndAuthenticate();
 
-            //Resub orders
-            OrderSubscriptionMessage orderSubscription = _processor.OrderResubscribeMessage;
-            if (orderSubscription != null)
+                //Resub markets
+                MarketSubscriptionMessage marketSubscription = _processor.MarketResubscribeMessage;
+                if (marketSubscription != null)
+                {
+                    Trace.TraceInformation("Resubscribe to market subscription.");
+                    MarketSubscription(marketSubscription);
+                }
+
+                //Resub orders
+                OrderSubscriptionMessage orderSubscription = _processor.OrderResubscribeMessage;
+                if (orderSubscription != null)
+                {
+                    Trace.TraceInformation("Resubscribe to order subscription.");
+                    OrderSubscription(orderSubscription);
+                }
+
+                //Reset counter
+                ReconnectCounter = 0;
+            } catch (Exception e)
             {
-                Trace.TraceInformation("Resubscribe to order subscription.");
-                OrderSubscription(orderSubscription);
+                Trace.TraceError("Reconnect failed", e);
+                ReconnectCounter++;
             }
-
-            //Reset counter
-            ReconnectCounter = 0;
         }
 
         /// <summary>

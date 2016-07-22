@@ -54,5 +54,10 @@ namespace Betfair.ESAClient.Cache
             result = 31 * result + (_handicap != null ? _handicap.GetHashCode() : 0);
             return result;
         }
+
+        public override string ToString()
+        {
+            return _handicap == null ? _selectionId.ToString() : _selectionId + ":" + _handicap;
+        }
     }
 }

@@ -94,6 +94,7 @@ namespace Betfair.ESAClient.Test
         [TestMethod]
         public void TestDisconnectWithAutoReconnect()
         {
+            Client.ReconnectBackOff = TimeSpan.FromMilliseconds(100);
             Client.Start();
             Assert.AreEqual(ESAClient.Protocol.ConnectionStatus.AUTHENTICATED, Client.Status);
             Client.Heartbeat();

@@ -17,6 +17,10 @@ namespace Betfair.ESAClient.Cache
     public class OrderMarketRunnerSnap
     {
         /// <summary>
+        /// Runner id.
+        /// </summary>
+        public RunnerId RunnerId { get; internal set; }
+        /// <summary>
         /// Price point aggregations of matches
         /// </summary>
         public IList<PriceSize> MatchedLay { get; internal set; }
@@ -30,10 +34,12 @@ namespace Betfair.ESAClient.Cache
         /// </summary>
         public Dictionary<string, Order> UnmatchedOrders { get; internal set; }
 
+
         public override string ToString()
         {
             return "OrderMarketRunnerSnap{" +
-                "UnmatchedOrders=" + String.Join(", ", UnmatchedOrders.Values) +
+                "RunnerId=" + RunnerId + 
+                ", UnmatchedOrders=" + String.Join(", ", UnmatchedOrders.Values) +
                 ", MatchedLay=" + String.Join(", ", MatchedLay) +
                 ", MatchedBack=" + String.Join(", ", MatchedBack) +
                 "}";

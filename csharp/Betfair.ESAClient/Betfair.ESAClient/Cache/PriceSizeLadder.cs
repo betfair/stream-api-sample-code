@@ -11,6 +11,9 @@ namespace Betfair.ESAClient.Cache
     /// </summary>
     public class PriceSizeLadder
     {
+        public static readonly IComparer<double> BACK_ORDER = new ReverseComparer<double>(Comparer<double>.Default);
+        public static readonly IComparer<double> LAY_ORDER = Comparer<double>.Default;
+
         /// <summary>
         /// Dictionary of price to PriceSize.
         /// </summary>
@@ -20,12 +23,12 @@ namespace Betfair.ESAClient.Cache
 
         public static PriceSizeLadder NewBack()
         {
-            return new PriceSizeLadder(new ReverseComparer<double>(Comparer<double>.Default));
+            return new PriceSizeLadder(BACK_ORDER);
         }
 
         public static PriceSizeLadder NewLay()
         {
-            return new PriceSizeLadder(Comparer<double>.Default);
+            return new PriceSizeLadder(LAY_ORDER);
         }
 
         private PriceSizeLadder(IComparer<double> comparer)
