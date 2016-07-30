@@ -53,6 +53,7 @@
     },
     "definitions": {
         "RequestMessage": {
+            "type" : "object",
             "properties": {
                 "op": {
                     "type": "string",
@@ -67,6 +68,7 @@
             "discriminator": "op"
         },
         "AuthenticationMessage": {
+            "type" : "object",
             "allOf": [
                 {
                     "type": "object",
@@ -86,6 +88,7 @@
             ]
         },
         "MarketSubscriptionMessage": {
+            "type" : "object",
             "allOf": [
                 {
                     "type": "object",
@@ -129,6 +132,7 @@
             ]
         },
         "MarketFilter": {
+            "type" : "object",
             "properties": {
                 "countryCodes": {
                     "type": "array",
@@ -188,6 +192,7 @@
             }
         },
         "MarketDataFilter": {
+            "type" : "object",
             "properties": {
                 "ladderLevels": {
                     "type": "integer",
@@ -213,6 +218,7 @@
             }
         },
         "OrderSubscriptionMessage": {
+            "type" : "object",
             "allOf": [
                 {
                     "type": "object",
@@ -252,6 +258,7 @@
             ]
         },
         "OrderFilter": {
+            "type" : "object",
             "properties": {
                 "accountIds": {
                     "type": "array",
@@ -263,6 +270,7 @@
             }
         },
         "HeartbeatMessage": {
+            "type" : "object",
             "allOf": [
                 {
                     "type": "object",
@@ -274,6 +282,7 @@
             ]
         },
         "ResponseMessage": {
+            "type" : "object",
             "properties": {
                 "op": {
                     "type": "string",
@@ -288,6 +297,7 @@
             "discriminator": "op"
         },
         "ConnectionMessage": {
+            "type" : "object",
             "allOf": [
                 {
                     "type": "object",
@@ -305,6 +315,7 @@
             ]
         },
         "StatusMessage": {
+            "type" : "object",
             "allOf": [
                 {
                     "type": "object",
@@ -357,6 +368,7 @@
             ]
         },
         "MarketChangeMessage": {
+            "type" : "object",
             "allOf": [
                 {
                     "type": "object",
@@ -418,6 +430,7 @@
             ]
         },
         "MarketChange": {
+            "type" : "object",
             "properties": {
                 "rc": {
                     "type": "array",
@@ -451,6 +464,7 @@
             }
         },
         "MarketDefinition": {
+            "type" : "object",
             "properties": {
                 "venue": {
                     "type": "string"
@@ -573,6 +587,7 @@
             }
         },
         "RunnerDefinition": {
+            "type" : "object",
             "properties": {
                 "sortPriority": {
                     "type": "integer",
@@ -615,6 +630,7 @@
             }
         },
         "RunnerChange": {
+            "type" : "object",
             "properties": {
                 "tv": {
                     "type": "number",
@@ -748,6 +764,7 @@
             }
         },
         "OrderChangeMessage": {
+            "type" : "object",
             "allOf": [
                 {
                     "type": "object",
@@ -809,6 +826,7 @@
             ]
         },
         "OrderMarketChange": {
+            "type" : "object",
             "properties": {
                 "accountId": {
                     "type": "integer",
@@ -831,6 +849,7 @@
             }
         },
         "OrderRunnerChange": {
+            "type" : "object",
             "properties": {
                 "mb": {
                     "type": "array",
@@ -877,6 +896,7 @@
             }
         },
         "Order": {
+            "type" : "object",
             "properties": {
                 "side": {
                     "type": "string",
@@ -982,6 +1002,7 @@
             }
         },
         "AllRequestTypesExample": {
+            "type" : "object",
             "properties": {
                 "opTypes": {
                     "type": "string",
@@ -1011,6 +1032,7 @@
             }
         },
         "AllResponseTypesExample": {
+            "type" : "object",
             "properties": {
                 "opTypes": {
                     "type": "string",
