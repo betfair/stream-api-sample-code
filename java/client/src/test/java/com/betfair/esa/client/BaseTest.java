@@ -19,10 +19,10 @@ public class BaseTest {
         password = getSystemProperty("Password");
     }
 
-    private static String getSystemProperty(String appKey) {
-        String value = System.getProperty(appKey);
+    private static String getSystemProperty(String key) {
+        String value = System.getProperty(key);
         if(value == null){
-            throw new IllegalArgumentException("System property '{}' must be set for tests to run");
+            throw new IllegalArgumentException(String.format("System property %s must be set for tests to run", key));
         }
         return value;
     }
