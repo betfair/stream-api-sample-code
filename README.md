@@ -7,7 +7,7 @@ The console app enables you to explore most of the API functions; please note th
 1. Your appkey must be setup for streaming (contact BDP)
 2. Credentials for .net are stored in AppData in plain text
 
-Note: Only use stream-api.betfair.com endpoint in production (stream-api-integration.betfair.com is for testing only and has no HA).
+**Note: Use stream-api.betfair.com in production (stream-api-integration.betfair.com is for testing and has no backup).**
 
 # Client overview
 The basic client structure is separated into a number of components:
