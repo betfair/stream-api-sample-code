@@ -75,3 +75,11 @@ A few tips on order subscription:
 3. Matches are price point aggregated
 4. By default markets are deleted on close
 
+## Specification & Schema
+###Specification: 
+https://github.com/betfair/stream-api-sample-code/blob/master/stream-api-specification.pdf
+
+###Schema
+We publish a swagger schema to define the object model:
+http://editor.swagger.io/#/?import=https://raw.githubusercontent.com/betfair/stream-api-sample-code/master/ESASwaggerSchema.json
+(_Note: the stream is not a rest service so generated swagger clients are of limited use although you can use the generated object model_)
