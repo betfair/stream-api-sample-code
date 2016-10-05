@@ -2,6 +2,7 @@ package com.betfair.esa.client.protocol;
 
 import com.betfair.esa.swagger.model.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -54,6 +55,7 @@ public class RequestResponseProcessor {
 
         objectMapper = new ObjectMapper();
         objectMapper.addMixIn(ResponseMessage.class, MixInResponseMessage.class );
+        objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
     }
 
     private void setStatus(ConnectionStatus value){
