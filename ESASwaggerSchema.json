@@ -4,15 +4,15 @@
     "version": "1.0.1423",
     "title": "Betfair: Exchange Streaming API",
     "description": "API to receive streamed updates. This is an ssl socket connection of CRLF delimited json messages (see RequestMessage & ResponseMessage)",
-	"termsOfService": "See BDP site",
-	"contact": {
-		"name": "BDP Support",
-		"url": "https://developer.betfair.com/support/",
-		"email": "bdp@betfair.com"
-	},
-	"license": {
-		"name": "See BDP site"
-	}
+    "termsOfService": "See BDP site",
+    "contact": {
+      "name": "BDP Support",
+      "url": "https://developer.betfair.com/support/",
+      "email": "bdp@betfair.com"
+    },
+    "license": {
+      "name": "See BDP site"
+    }
   },
   "host": "stream-api.betfair.com:443",
   "basePath": "/api",
@@ -51,6 +51,1066 @@
       }
     }
   },
-  "definitions":
-  {"RequestMessage":{"properties":{"op":{"type":"string","description":"The operation type"},"id":{"type":"integer","description":"Client generated unique id to link request with response (like json rpc)","format":"int32"}},"discriminator":"op"},"AuthenticationMessage":{"allOf":[{"type":"object","$ref":"#/definitions/RequestMessage"},{"type":"object","properties":{"session":{"type":"string"},"appKey":{"type":"string"}}}]},"MarketSubscriptionMessage":{"allOf":[{"type":"object","$ref":"#/definitions/RequestMessage"},{"type":"object","properties":{"segmentationEnabled":{"type":"boolean","description":"Segmentation Enabled - allow the server to send large sets of data in segments, instead of a single block"},"clk":{"type":"string","description":"Token value delta (received in MarketChangeMessage) that should be passed to resume a subscription"},"heartbeatMs":{"type":"integer","description":"Heartbeat Milliseconds - the heartbeat rate (looped back on initial image after validation: bounds are 500 to 30000)","format":"int64"},"initialClk":{"type":"string","description":"Token value (received in initial MarketChangeMessage) that should be passed to resume a subscription"},"marketFilter":{"type":"object","$ref":"#/definitions/MarketFilter"},"conflateMs":{"type":"integer","description":"Conflate Milliseconds - the conflation rate (looped back on initial image after validation: bounds are 0 to 120000)","format":"int64"},"marketDataFilter":{"type":"object","$ref":"#/definitions/MarketDataFilter"}}}]},"MarketFilter":{"properties":{"countryCodes":{"type":"array","items":{"type":"string"}},"bettingTypes":{"type":"array","items":{"type":"string","enum":["ODDS","LINE","RANGE","ASIAN_HANDICAP_DOUBLE_LINE","ASIAN_HANDICAP_SINGLE_LINE"]}},"turnInPlayEnabled":{"type":"boolean"},"marketTypes":{"type":"array","items":{"type":"string"}},"venues":{"type":"array","items":{"type":"string"}},"marketIds":{"type":"array","items":{"type":"string"}},"eventTypeIds":{"type":"array","items":{"type":"string"}},"eventIds":{"type":"array","items":{"type":"string"}},"bspMarket":{"type":"boolean"}}},"MarketDataFilter":{"properties":{"ladderLevels":{"type":"integer","format":"int32"},"fields":{"type":"array","items":{"type":"string","enum":["EX_BEST_OFFERS_DISP","EX_BEST_OFFERS","EX_ALL_OFFERS","EX_TRADED","EX_TRADED_VOL","EX_LTP","EX_MARKET_DEF","SP_TRADED","SP_PROJECTED"]}}}},"OrderSubscriptionMessage":{"allOf":[{"type":"object","$ref":"#/definitions/RequestMessage"},{"type":"object","properties":{"segmentationEnabled":{"type":"boolean","description":"Segmentation Enabled - allow the server to send large sets of data in segments, instead of a single block"},"orderFilter":{"type":"object","$ref":"#/definitions/OrderFilter","description":"Optional filter applied to order subscription"},"clk":{"type":"string","description":"Token value delta (received in MarketChangeMessage) that should be passed to resume a subscription"},"heartbeatMs":{"type":"integer","description":"Heartbeat Milliseconds - the heartbeat rate (looped back on initial image after validation: bounds are 500 to 30000)","format":"int64"},"initialClk":{"type":"string","description":"Token value (received in initial MarketChangeMessage) that should be passed to resume a subscription"},"conflateMs":{"type":"integer","description":"Conflate Milliseconds - the conflation rate (looped back on initial image after validation: bounds are 0 to 120000)","format":"int64"}}}]},"OrderFilter":{"properties":{"includeOverallPosition":{"type":"boolean","description":"Returns overall / net position (See: OrderRunnerChange.mb / OrderRunnerChange.ml). Default=true"},"accountIds":{"type":"array","description":"Internal use only & should not be set on your filter (your subscription is already locked to your account). If set subscription will fail.","items":{"type":"integer","format":"int64"}},"customerStrategyRefs":{"type":"array","description":"Restricts to specified customerStrategyRefs; this will filter orders and StrategyMatchChanges accordingly (Note: overall postition is not filtered)","items":{"type":"string"}},"partitionMatchedByStrategyRef":{"type":"boolean","description":"Returns strategy positions (See: OrderRunnerChange.smc=Map<customerStrategyRef, StrategyMatchChange>) - these are sent in delta format as per overall position. Default=false"}}},"HeartbeatMessage":{"allOf":[{"type":"object","$ref":"#/definitions/RequestMessage"},{"type":"object"}]},"ResponseMessage":{"properties":{"op":{"type":"string","description":"The operation type"},"id":{"type":"integer","description":"Client generated unique id to link request with response (like json rpc)","format":"int32"}},"discriminator":"op"},"ConnectionMessage":{"allOf":[{"type":"object","$ref":"#/definitions/ResponseMessage"},{"type":"object","properties":{"connectionId":{"type":"string","description":"The connection id"}}}]},"StatusMessage":{"allOf":[{"type":"object","$ref":"#/definitions/ResponseMessage"},{"type":"object","properties":{"errorMessage":{"type":"string","description":"Additional message in case of a failure"},"errorCode":{"type":"string","description":"The type of error in case of a failure","enum":["NO_APP_KEY","INVALID_APP_KEY","NO_SESSION","INVALID_SESSION_INFORMATION","NOT_AUTHORIZED","INVALID_INPUT","INVALID_CLOCK","UNEXPECTED_ERROR","TIMEOUT","SUBSCRIPTION_LIMIT_EXCEEDED","INVALID_REQUEST","CONNECTION_FAILED","MAX_CONNECTION_LIMIT_EXCEEDED"]},"connectionId":{"type":"string","description":"The connection id"},"connectionClosed":{"type":"boolean","description":"Is the connection now closed"},"statusCode":{"type":"string","description":"The status of the last request","enum":["SUCCESS","FAILURE"]}}}]},"MarketChangeMessage":{"allOf":[{"type":"object","$ref":"#/definitions/ResponseMessage"},{"type":"object","properties":{"ct":{"type":"string","description":"Change Type - set to indicate the type of change - if null this is a delta)","enum":["SUB_IMAGE","RESUB_DELTA","HEARTBEAT"]},"clk":{"type":"string","description":"Token value (non-null) should be stored and passed in a MarketSubscriptionMessage to resume subscription (in case of disconnect)"},"heartbeatMs":{"type":"integer","description":"Heartbeat Milliseconds - the heartbeat rate (may differ from requested: bounds are 500 to 30000)","format":"int64"},"pt":{"type":"integer","description":"Publish Time (in millis since epoch) that the changes were generated","format":"int64"},"initialClk":{"type":"string","description":"Token value (non-null) should be stored and passed in a MarketSubscriptionMessage to resume subscription (in case of disconnect)"},"mc":{"type":"array","description":"MarketChanges - the modifications to markets (will be null on a heartbeat","items":{"$ref":"#/definitions/MarketChange"}},"conflateMs":{"type":"integer","description":"Conflate Milliseconds - the conflation rate (may differ from that requested if subscription is delayed)","format":"int64"},"segmentType":{"type":"string","description":"Segment Type - if the change is split into multiple segments, this denotes the beginning and end of a change, and segments in between. Will be null if data is not segmented","enum":["SEG_START","SEG","SEG_END"]}}}]},"MarketChange":{"properties":{"rc":{"type":"array","description":"Runner Changes - a list of changes to runners (or null if un-changed)","items":{"$ref":"#/definitions/RunnerChange"}},"img":{"type":"boolean","description":"Image - replace existing prices / data with the data supplied: it is not a delta (or null if delta)"},"tv":{"type":"number","description":"The total amount matched across the market. This value is truncated at 2dp (or null if un-changed)","format":"double"},"con":{"type":"boolean","description":"Conflated - have more than a single change been combined (or null if not conflated)"},"marketDefinition":{"type":"object","$ref":"#/definitions/MarketDefinition","description":"Market Definition - the definition of the market (or null if un-changed)"},"id":{"type":"string","description":"Market Id - the id of the market"}}},"MarketDefinition":{"properties":{"venue":{"type":"string"},"settledTime":{"type":"string","format":"date-time"},"timezone":{"type":"string"},"eachWayDivisor":{"type":"number","format":"double"},"regulators":{"type":"array","description":"The market regulators.","items":{"type":"string"}},"marketType":{"type":"string"},"marketBaseRate":{"type":"number","format":"double"},"numberOfWinners":{"type":"integer","format":"int32"},"countryCode":{"type":"string"},"inPlay":{"type":"boolean"},"betDelay":{"type":"integer","format":"int32"},"bspMarket":{"type":"boolean"},"bettingType":{"type":"string","enum":["ODDS","LINE","RANGE","ASIAN_HANDICAP_DOUBLE_LINE","ASIAN_HANDICAP_SINGLE_LINE"]},"numberOfActiveRunners":{"type":"integer","format":"int32"},"eventId":{"type":"string"},"crossMatching":{"type":"boolean"},"runnersVoidable":{"type":"boolean"},"turnInPlayEnabled":{"type":"boolean"},"suspendTime":{"type":"string","format":"date-time"},"discountAllowed":{"type":"boolean"},"persistenceEnabled":{"type":"boolean"},"runners":{"type":"array","items":{"$ref":"#/definitions/RunnerDefinition"}},"version":{"type":"integer","format":"int64"},"eventTypeId":{"type":"string","description":"The Event Type the market is contained within."},"complete":{"type":"boolean"},"openDate":{"type":"string","format":"date-time"},"marketTime":{"type":"string","format":"date-time"},"bspReconciled":{"type":"boolean"},"status":{"type":"string","enum":["INACTIVE","OPEN","SUSPENDED","CLOSED"]}}},"RunnerDefinition":{"properties":{"sortPriority":{"type":"integer","format":"int32"},"removalDate":{"type":"string","format":"date-time"},"id":{"type":"integer","description":"Selection Id - the id of the runner (selection)","format":"int64"},"hc":{"type":"number","description":"Handicap - the handicap of the runner (selection) (null if not applicable)","format":"double"},"adjustmentFactor":{"type":"number","format":"double"},"bsp":{"type":"number","format":"double"},"status":{"type":"string","enum":["ACTIVE","WINNER","LOSER","REMOVED","REMOVED_VACANT","HIDDEN","PLACED"]}}},"RunnerChange":{"properties":{"tv":{"type":"number","description":"The total amount matched. This value is truncated at 2dp.","format":"double"},"batb":{"type":"array","description":"Best Available To Back - LevelPriceVol triple delta of price changes, keyed by level (0 vol is remove)","items":{"type":"array","items":{"type":"number","format":"double"}}},"spb":{"type":"array","description":"Starting Price Back - PriceVol tuple delta of price changes (0 vol is remove)","items":{"type":"array","items":{"type":"number","format":"double"}}},"bdatl":{"type":"array","description":"Best Display Available To Lay (includes virtual prices)- LevelPriceVol triple delta of price changes, keyed by level (0 vol is remove)","items":{"type":"array","items":{"type":"number","format":"double"}}},"trd":{"type":"array","description":"Traded - PriceVol tuple delta of price changes (0 vol is remove)","items":{"type":"array","items":{"type":"number","format":"double"}}},"spf":{"type":"number","description":"Starting Price Far - The far starting price (or null if un-changed)","format":"double"},"ltp":{"type":"number","description":"Last Traded Price - The last traded price (or null if un-changed)","format":"double"},"atb":{"type":"array","description":"Available To Back - PriceVol tuple delta of price changes (0 vol is remove)","items":{"type":"array","items":{"type":"number","format":"double"}}},"spl":{"type":"array","description":"Starting Price Lay - PriceVol tuple delta of price changes (0 vol is remove)","items":{"type":"array","items":{"type":"number","format":"double"}}},"spn":{"type":"number","description":"Starting Price Near - The far starting price (or null if un-changed)","format":"double"},"atl":{"type":"array","description":"Available To Lay - PriceVol tuple delta of price changes (0 vol is remove)","items":{"type":"array","items":{"type":"number","format":"double"}}},"batl":{"type":"array","description":"Best Available To Lay - LevelPriceVol triple delta of price changes, keyed by level (0 vol is remove)","items":{"type":"array","items":{"type":"number","format":"double"}}},"id":{"type":"integer","description":"Selection Id - the id of the runner (selection)","format":"int64"},"hc":{"type":"number","description":"Handicap - the handicap of the runner (selection) (null if not applicable)","format":"double"},"bdatb":{"type":"array","description":"Best Display Available To Back (includes virtual prices)- LevelPriceVol triple delta of price changes, keyed by level (0 vol is remove)","items":{"type":"array","items":{"type":"number","format":"double"}}}}},"OrderChangeMessage":{"allOf":[{"type":"object","$ref":"#/definitions/ResponseMessage"},{"type":"object","properties":{"ct":{"type":"string","description":"Change Type - set to indicate the type of change - if null this is a delta)","enum":["SUB_IMAGE","RESUB_DELTA","HEARTBEAT"]},"clk":{"type":"string","description":"Token value (non-null) should be stored and passed in a MarketSubscriptionMessage to resume subscription (in case of disconnect)"},"heartbeatMs":{"type":"integer","description":"Heartbeat Milliseconds - the heartbeat rate (may differ from requested: bounds are 500 to 30000)","format":"int64"},"pt":{"type":"integer","description":"Publish Time (in millis since epoch) that the changes were generated","format":"int64"},"oc":{"type":"array","description":"OrderMarketChanges - the modifications to account's orders (will be null on a heartbeat","items":{"$ref":"#/definitions/OrderMarketChange"}},"initialClk":{"type":"string","description":"Token value (non-null) should be stored and passed in a MarketSubscriptionMessage to resume subscription (in case of disconnect)"},"conflateMs":{"type":"integer","description":"Conflate Milliseconds - the conflation rate (may differ from that requested if subscription is delayed)","format":"int64"},"segmentType":{"type":"string","description":"Segment Type - if the change is split into multiple segments, this denotes the beginning and end of a change, and segments in between. Will be null if data is not segmented","enum":["SEG_START","SEG","SEG_END"]}}}]},"OrderMarketChange":{"properties":{"accountId":{"type":"integer","format":"int64"},"orc":{"type":"array","description":"Order Changes - a list of changes to orders on a selection","items":{"$ref":"#/definitions/OrderRunnerChange"}},"closed":{"type":"boolean"},"id":{"type":"string","description":"Market Id - the id of the market the order is on"}}},"OrderRunnerChange":{"properties":{"mb":{"type":"array","description":"Matched Backs - matched amounts by distinct matched price on the Back side for this runner (selection)","items":{"type":"array","items":{"type":"number","format":"double"}}},"smc":{"type":"object","description":"Strategy Matches - Matched Backs and Matched Lays grouped by strategy reference","additionalProperties":{"$ref":"#/definitions/StrategyMatchChange"}},"uo":{"type":"array","description":"Unmatched Orders - orders on this runner (selection) that are not fully matched","items":{"$ref":"#/definitions/Order"}},"id":{"type":"integer","description":"Selection Id - the id of the runner (selection)","format":"int64"},"hc":{"type":"number","description":"Handicap - the handicap of the runner (selection) (null if not applicable)","format":"double"},"fullImage":{"type":"boolean"},"ml":{"type":"array","description":"Matched Lays - matched amounts by distinct matched price on the Lay side for this runner (selection)","items":{"type":"array","items":{"type":"number","format":"double"}}}}},"Order":{"properties":{"side":{"type":"string","description":"Side - the side of the order","enum":["B","L"]},"sv":{"type":"number","description":"Size Voided - the amount of the order that has been voided","format":"double"},"pt":{"type":"string","description":"Persistence Type - whether the order will persist at in play or not (L = LAPSE, P = PERSIST, MOC = Market On Close)","enum":["L","P","MOC"]},"ot":{"type":"string","description":"Order Type - the type of the order (L = LIMIT, MOC = MARKET_ON_CLOSE, LOC = LIMIT_ON_CLOSE)","enum":["L","LOC","MOC"]},"p":{"type":"number","description":"Price - the original placed price of the order","format":"double"},"sc":{"type":"number","description":"Size Cancelled - the amount of the order that has been cancelled","format":"double"},"rc":{"type":"string","description":"Regulator Code - the regulator of the order"},"s":{"type":"number","description":"Size - the original placed size of the order","format":"double"},"pd":{"type":"integer","description":"Placed Date - the date the order was placed","format":"int64"},"rac":{"type":"string","description":"Regulator Auth Code - the auth code returned by the regulator"},"md":{"type":"integer","description":"Matched Date - the date the order was matched (null if the order is not matched)","format":"int64"},"sl":{"type":"number","description":"Size Lapsed - the amount of the order that has been lapsed","format":"double"},"avp":{"type":"number","description":"Average Price Matched - the average price the order was matched at (null if the order is not matched","format":"double"},"sm":{"type":"number","description":"Size Matched - the amount of the order that has been matched","format":"double"},"rfo":{"type":"string","description":"Order Reference - the customer's order reference for this order (empty string if one was not set)"},"id":{"type":"string","description":"Bet Id - the id of the order"},"bsp":{"type":"number","description":"BSP Liability - the BSP liability of the order (null if the order is not a BSP order)","format":"double"},"rfs":{"type":"string","description":"Strategy Reference - the customer's strategy reference for this order (empty string if one was not set)"},"status":{"type":"string","description":"Status - the status of the order (E = EXECUTABLE, EC = EXECUTION_COMPLETE)","enum":["E","EC"]},"sr":{"type":"number","description":"Size Remaining - the amount of the order that is remaining unmatched","format":"double"}}},"StrategyMatchChange":{"properties":{"mb":{"type":"array","description":"Matched Backs - matched amounts by distinct matched price on the Back side for this strategy","items":{"type":"array","items":{"type":"number","format":"double"}}},"ml":{"type":"array","description":"Matched Lays - matched amounts by distinct matched price on the Lay side for this strategy","items":{"type":"array","items":{"type":"number","format":"double"}}}}},"AllRequestTypesExample":{"properties":{"opTypes":{"type":"string","enum":["heartbeat","authentication","marketSubscription","orderSubscription"]},"heartbeat":{"type":"object","$ref":"#/definitions/HeartbeatMessage"},"orderSubscriptionMessage":{"type":"object","$ref":"#/definitions/OrderSubscriptionMessage"},"marketSubscription":{"type":"object","$ref":"#/definitions/MarketSubscriptionMessage"},"authentication":{"type":"object","$ref":"#/definitions/AuthenticationMessage"}}},"AllResponseTypesExample":{"properties":{"opTypes":{"type":"string","enum":["connection","status","mcm","ocm"]},"marketChangeMessage":{"type":"object","$ref":"#/definitions/MarketChangeMessage"},"connection":{"type":"object","$ref":"#/definitions/ConnectionMessage"},"orderChangeMessage":{"type":"object","$ref":"#/definitions/OrderChangeMessage"},"status":{"type":"object","$ref":"#/definitions/StatusMessage"}}}}
+  "definitions": {
+    "RequestMessage": {
+      "properties": {
+        "op": {
+          "type": "string",
+          "description": "The operation type"
+        },
+        "id": {
+          "type": "integer",
+          "description": "Client generated unique id to link request with response (like json rpc)",
+          "format": "int32"
+        }
+      },
+      "discriminator": "op"
+    },
+    "AuthenticationMessage": {
+      "allOf": [
+        {
+          "type": "object",
+          "$ref": "#/definitions/RequestMessage"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "session": {
+              "type": "string"
+            },
+            "appKey": {
+              "type": "string"
+            }
+          }
+        }
+      ]
+    },
+    "MarketSubscriptionMessage": {
+      "allOf": [
+        {
+          "type": "object",
+          "$ref": "#/definitions/RequestMessage"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "segmentationEnabled": {
+              "type": "boolean",
+              "description": "Segmentation Enabled - allow the server to send large sets of data in segments, instead of a single block"
+            },
+            "clk": {
+              "type": "string",
+              "description": "Token value delta (received in MarketChangeMessage) that should be passed to resume a subscription"
+            },
+            "heartbeatMs": {
+              "type": "integer",
+              "description": "Heartbeat Milliseconds - the heartbeat rate (looped back on initial image after validation: bounds are 500 to 5000)",
+              "format": "int64"
+            },
+            "initialClk": {
+              "type": "string",
+              "description": "Token value (received in initial MarketChangeMessage) that should be passed to resume a subscription"
+            },
+            "marketFilter": {
+              "type": "object",
+              "$ref": "#/definitions/MarketFilter"
+            },
+            "conflateMs": {
+              "type": "integer",
+              "description": "Conflate Milliseconds - the conflation rate (looped back on initial image after validation: bounds are 0 to 120000)",
+              "format": "int64"
+            },
+            "marketDataFilter": {
+              "type": "object",
+              "$ref": "#/definitions/MarketDataFilter"
+            }
+          }
+        }
+      ]
+    },
+    "MarketFilter": {
+      "properties": {
+        "countryCodes": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "bettingTypes": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "ODDS",
+              "LINE",
+              "RANGE",
+              "ASIAN_HANDICAP_DOUBLE_LINE",
+              "ASIAN_HANDICAP_SINGLE_LINE"
+            ]
+          }
+        },
+        "turnInPlayEnabled": {
+          "type": "boolean"
+        },
+        "marketTypes": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "venues": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "marketIds": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "eventTypeIds": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "eventIds": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "bspMarket": {
+          "type": "boolean"
+        }
+      }
+    },
+    "MarketDataFilter": {
+      "properties": {
+        "ladderLevels": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "fields": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "EX_BEST_OFFERS_DISP",
+              "EX_BEST_OFFERS",
+              "EX_ALL_OFFERS",
+              "EX_TRADED",
+              "EX_TRADED_VOL",
+              "EX_LTP",
+              "EX_MARKET_DEF",
+              "SP_TRADED",
+              "SP_PROJECTED"
+            ]
+          }
+        }
+      }
+    },
+    "OrderSubscriptionMessage": {
+      "allOf": [
+        {
+          "type": "object",
+          "$ref": "#/definitions/RequestMessage"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "segmentationEnabled": {
+              "type": "boolean",
+              "description": "Segmentation Enabled - allow the server to send large sets of data in segments, instead of a single block"
+            },
+            "orderFilter": {
+              "type": "object",
+              "$ref": "#/definitions/OrderFilter",
+              "description": "Optional filter applied to order subscription"
+            },
+            "clk": {
+              "type": "string",
+              "description": "Token value delta (received in MarketChangeMessage) that should be passed to resume a subscription"
+            },
+            "heartbeatMs": {
+              "type": "integer",
+              "description": "Heartbeat Milliseconds - the heartbeat rate (looped back on initial image after validation: bounds are 500 to 5000)",
+              "format": "int64"
+            },
+            "initialClk": {
+              "type": "string",
+              "description": "Token value (received in initial MarketChangeMessage) that should be passed to resume a subscription"
+            },
+            "conflateMs": {
+              "type": "integer",
+              "description": "Conflate Milliseconds - the conflation rate (looped back on initial image after validation: bounds are 0 to 120000)",
+              "format": "int64"
+            }
+          }
+        }
+      ]
+    },
+    "OrderFilter": {
+      "properties": {
+        "includeOverallPosition": {
+          "type": "boolean",
+          "description": "Returns overall / net position (See: OrderRunnerChange.mb / OrderRunnerChange.ml). Default=true"
+        },
+        "accountIds": {
+          "type": "array",
+          "description": "Internal use only & should not be set on your filter (your subscription is already locked to your account). If set subscription will fail.",
+          "items": {
+            "type": "integer",
+            "format": "int64"
+          }
+        },
+        "customerStrategyRefs": {
+          "type": "array",
+          "description": "Restricts to specified customerStrategyRefs; this will filter orders and StrategyMatchChanges accordingly (Note: overall postition is not filtered)",
+          "items": {
+            "type": "string"
+          }
+        },
+        "partitionMatchedByStrategyRef": {
+          "type": "boolean",
+          "description": "Returns strategy positions (See: OrderRunnerChange.smc=Map<customerStrategyRef, StrategyMatchChange>) - these are sent in delta format as per overall position. Default=false"
+        }
+      }
+    },
+    "HeartbeatMessage": {
+      "allOf": [
+        {
+          "type": "object",
+          "$ref": "#/definitions/RequestMessage"
+        },
+        {
+          "type": "object"
+        }
+      ]
+    },
+    "ResponseMessage": {
+      "properties": {
+        "op": {
+          "type": "string",
+          "description": "The operation type"
+        },
+        "id": {
+          "type": "integer",
+          "description": "Client generated unique id to link request with response (like json rpc)",
+          "format": "int32"
+        }
+      },
+      "discriminator": "op"
+    },
+    "ConnectionMessage": {
+      "allOf": [
+        {
+          "type": "object",
+          "$ref": "#/definitions/ResponseMessage"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "connectionId": {
+              "type": "string",
+              "description": "The connection id"
+            }
+          }
+        }
+      ]
+    },
+    "StatusMessage": {
+      "allOf": [
+        {
+          "type": "object",
+          "$ref": "#/definitions/ResponseMessage"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "errorMessage": {
+              "type": "string",
+              "description": "Additional message in case of a failure"
+            },
+            "errorCode": {
+              "type": "string",
+              "description": "The type of error in case of a failure",
+              "enum": [
+                "NO_APP_KEY",
+                "INVALID_APP_KEY",
+                "NO_SESSION",
+                "INVALID_SESSION_INFORMATION",
+                "NOT_AUTHORIZED",
+                "INVALID_INPUT",
+                "INVALID_CLOCK",
+                "UNEXPECTED_ERROR",
+                "TIMEOUT",
+                "SUBSCRIPTION_LIMIT_EXCEEDED",
+                "INVALID_REQUEST",
+                "CONNECTION_FAILED",
+                "MAX_CONNECTION_LIMIT_EXCEEDED"
+              ]
+            },
+            "connectionId": {
+              "type": "string",
+              "description": "The connection id"
+            },
+            "connectionClosed": {
+              "type": "boolean",
+              "description": "Is the connection now closed"
+            },
+            "statusCode": {
+              "type": "string",
+              "description": "The status of the last request",
+              "enum": [
+                "SUCCESS",
+                "FAILURE"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "MarketChangeMessage": {
+      "allOf": [
+        {
+          "type": "object",
+          "$ref": "#/definitions/ResponseMessage"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "ct": {
+              "type": "string",
+              "description": "Change Type - set to indicate the type of change - if null this is a delta)",
+              "enum": [
+                "SUB_IMAGE",
+                "RESUB_DELTA",
+                "HEARTBEAT"
+              ]
+            },
+            "clk": {
+              "type": "string",
+              "description": "Token value (non-null) should be stored and passed in a MarketSubscriptionMessage to resume subscription (in case of disconnect)"
+            },
+            "heartbeatMs": {
+              "type": "integer",
+              "description": "Heartbeat Milliseconds - the heartbeat rate (may differ from requested: bounds are 500 to 30000)",
+              "format": "int64"
+            },
+            "pt": {
+              "type": "integer",
+              "description": "Publish Time (in millis since epoch) that the changes were generated",
+              "format": "int64"
+            },
+            "initialClk": {
+              "type": "string",
+              "description": "Token value (non-null) should be stored and passed in a MarketSubscriptionMessage to resume subscription (in case of disconnect)"
+            },
+            "mc": {
+              "type": "array",
+              "description": "MarketChanges - the modifications to markets (will be null on a heartbeat",
+              "items": {
+                "$ref": "#/definitions/MarketChange"
+              }
+            },
+            "conflateMs": {
+              "type": "integer",
+              "description": "Conflate Milliseconds - the conflation rate (may differ from that requested if subscription is delayed)",
+              "format": "int64"
+            },
+            "segmentType": {
+              "type": "string",
+              "description": "Segment Type - if the change is split into multiple segments, this denotes the beginning and end of a change, and segments in between. Will be null if data is not segmented",
+              "enum": [
+                "SEG_START",
+                "SEG",
+                "SEG_END"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "MarketChange": {
+      "properties": {
+        "rc": {
+          "type": "array",
+          "description": "Runner Changes - a list of changes to runners (or null if un-changed)",
+          "items": {
+            "$ref": "#/definitions/RunnerChange"
+          }
+        },
+        "img": {
+          "type": "boolean",
+          "description": "Image - replace existing prices / data with the data supplied: it is not a delta (or null if delta)"
+        },
+        "tv": {
+          "type": "number",
+          "description": "The total amount matched across the market. This value is truncated at 2dp (or null if un-changed)",
+          "format": "double"
+        },
+        "con": {
+          "type": "boolean",
+          "description": "Conflated - have more than a single change been combined (or null if not conflated)"
+        },
+        "marketDefinition": {
+          "type": "object",
+          "$ref": "#/definitions/MarketDefinition",
+          "description": "Market Definition - the definition of the market (or null if un-changed)"
+        },
+        "id": {
+          "type": "string",
+          "description": "Market Id - the id of the market"
+        }
+      }
+    },
+    "MarketDefinition": {
+      "properties": {
+        "venue": {
+          "type": "string"
+        },
+        "settledTime": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "timezone": {
+          "type": "string"
+        },
+        "eachWayDivisor": {
+          "type": "number",
+          "format": "double"
+        },
+        "regulators": {
+          "type": "array",
+          "description": "The market regulators.",
+          "items": {
+            "type": "string"
+          }
+        },
+        "marketType": {
+          "type": "string"
+        },
+        "marketBaseRate": {
+          "type": "number",
+          "format": "double"
+        },
+        "numberOfWinners": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "countryCode": {
+          "type": "string"
+        },
+        "lineMaxUnit": {
+          "type": "number",
+          "description": "For Line markets, maximum value for the outcome, in market units for this market (eg 100 runs).",
+          "format": "double"
+        },
+        "inPlay": {
+          "type": "boolean"
+        },
+        "betDelay": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "bspMarket": {
+          "type": "boolean"
+        },
+        "bettingType": {
+          "type": "string",
+          "enum": [
+            "ODDS",
+            "LINE",
+            "RANGE",
+            "ASIAN_HANDICAP_DOUBLE_LINE",
+            "ASIAN_HANDICAP_SINGLE_LINE"
+          ]
+        },
+        "numberOfActiveRunners": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "lineMinUnit": {
+          "type": "number",
+          "description": "For Line markets, minimum value for the outcome, in market units for this market (eg 0 runs).",
+          "format": "double"
+        },
+        "eventId": {
+          "type": "string"
+        },
+        "crossMatching": {
+          "type": "boolean"
+        },
+        "runnersVoidable": {
+          "type": "boolean"
+        },
+        "turnInPlayEnabled": {
+          "type": "boolean"
+        },
+        "suspendTime": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "discountAllowed": {
+          "type": "boolean"
+        },
+        "persistenceEnabled": {
+          "type": "boolean"
+        },
+        "runners": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/RunnerDefinition"
+          }
+        },
+        "version": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "eventTypeId": {
+          "type": "string",
+          "description": "The Event Type the market is contained within."
+        },
+        "complete": {
+          "type": "boolean"
+        },
+        "openDate": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "marketTime": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "bspReconciled": {
+          "type": "boolean"
+        },
+        "lineInterval": {
+          "type": "number",
+          "description": "For Line markets, the odds ladder on this market will be between the range of lineMinUnit and lineMaxUnit, in increments of the interval value.e.g. If lineMinUnit=10 runs, lineMaxUnit=20 runs, lineInterval=0.5 runs, then valid odds include 10, 10.5, 11, 11.5 up to 20 runs.",
+          "format": "double"
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "INACTIVE",
+            "OPEN",
+            "SUSPENDED",
+            "CLOSED"
+          ]
+        }
+      }
+    },
+    "RunnerDefinition": {
+      "properties": {
+        "sortPriority": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "removalDate": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "id": {
+          "type": "integer",
+          "description": "Selection Id - the id of the runner (selection)",
+          "format": "int64"
+        },
+        "hc": {
+          "type": "number",
+          "description": "Handicap - the handicap of the runner (selection) (null if not applicable)",
+          "format": "double"
+        },
+        "adjustmentFactor": {
+          "type": "number",
+          "format": "double"
+        },
+        "bsp": {
+          "type": "number",
+          "format": "double"
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "ACTIVE",
+            "WINNER",
+            "LOSER",
+            "REMOVED",
+            "REMOVED_VACANT",
+            "HIDDEN",
+            "PLACED"
+          ]
+        }
+      }
+    },
+    "RunnerChange": {
+      "properties": {
+        "tv": {
+          "type": "number",
+          "description": "The total amount matched. This value is truncated at 2dp.",
+          "format": "double"
+        },
+        "batb": {
+          "type": "array",
+          "description": "Best Available To Back - LevelPriceVol triple delta of price changes, keyed by level (0 vol is remove)",
+          "items": {
+            "type": "array",
+            "items": {
+              "type": "number",
+              "format": "double"
+            }
+          }
+        },
+        "spb": {
+          "type": "array",
+          "description": "Starting Price Back - PriceVol tuple delta of price changes (0 vol is remove)",
+          "items": {
+            "type": "array",
+            "items": {
+              "type": "number",
+              "format": "double"
+            }
+          }
+        },
+        "bdatl": {
+          "type": "array",
+          "description": "Best Display Available To Lay (includes virtual prices)- LevelPriceVol triple delta of price changes, keyed by level (0 vol is remove)",
+          "items": {
+            "type": "array",
+            "items": {
+              "type": "number",
+              "format": "double"
+            }
+          }
+        },
+        "trd": {
+          "type": "array",
+          "description": "Traded - PriceVol tuple delta of price changes (0 vol is remove)",
+          "items": {
+            "type": "array",
+            "items": {
+              "type": "number",
+              "format": "double"
+            }
+          }
+        },
+        "spf": {
+          "type": "number",
+          "description": "Starting Price Far - The far starting price (or null if un-changed)",
+          "format": "double"
+        },
+        "ltp": {
+          "type": "number",
+          "description": "Last Traded Price - The last traded price (or null if un-changed)",
+          "format": "double"
+        },
+        "atb": {
+          "type": "array",
+          "description": "Available To Back - PriceVol tuple delta of price changes (0 vol is remove)",
+          "items": {
+            "type": "array",
+            "items": {
+              "type": "number",
+              "format": "double"
+            }
+          }
+        },
+        "spl": {
+          "type": "array",
+          "description": "Starting Price Lay - PriceVol tuple delta of price changes (0 vol is remove)",
+          "items": {
+            "type": "array",
+            "items": {
+              "type": "number",
+              "format": "double"
+            }
+          }
+        },
+        "spn": {
+          "type": "number",
+          "description": "Starting Price Near - The far starting price (or null if un-changed)",
+          "format": "double"
+        },
+        "atl": {
+          "type": "array",
+          "description": "Available To Lay - PriceVol tuple delta of price changes (0 vol is remove)",
+          "items": {
+            "type": "array",
+            "items": {
+              "type": "number",
+              "format": "double"
+            }
+          }
+        },
+        "batl": {
+          "type": "array",
+          "description": "Best Available To Lay - LevelPriceVol triple delta of price changes, keyed by level (0 vol is remove)",
+          "items": {
+            "type": "array",
+            "items": {
+              "type": "number",
+              "format": "double"
+            }
+          }
+        },
+        "id": {
+          "type": "integer",
+          "description": "Selection Id - the id of the runner (selection)",
+          "format": "int64"
+        },
+        "hc": {
+          "type": "number",
+          "description": "Handicap - the handicap of the runner (selection) (null if not applicable)",
+          "format": "double"
+        },
+        "bdatb": {
+          "type": "array",
+          "description": "Best Display Available To Back (includes virtual prices)- LevelPriceVol triple delta of price changes, keyed by level (0 vol is remove)",
+          "items": {
+            "type": "array",
+            "items": {
+              "type": "number",
+              "format": "double"
+            }
+          }
+        }
+      }
+    },
+    "OrderChangeMessage": {
+      "allOf": [
+        {
+          "type": "object",
+          "$ref": "#/definitions/ResponseMessage"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "ct": {
+              "type": "string",
+              "description": "Change Type - set to indicate the type of change - if null this is a delta)",
+              "enum": [
+                "SUB_IMAGE",
+                "RESUB_DELTA",
+                "HEARTBEAT"
+              ]
+            },
+            "clk": {
+              "type": "string",
+              "description": "Token value (non-null) should be stored and passed in a MarketSubscriptionMessage to resume subscription (in case of disconnect)"
+            },
+            "heartbeatMs": {
+              "type": "integer",
+              "description": "Heartbeat Milliseconds - the heartbeat rate (may differ from requested: bounds are 500 to 30000)",
+              "format": "int64"
+            },
+            "pt": {
+              "type": "integer",
+              "description": "Publish Time (in millis since epoch) that the changes were generated",
+              "format": "int64"
+            },
+            "oc": {
+              "type": "array",
+              "description": "OrderMarketChanges - the modifications to account's orders (will be null on a heartbeat",
+              "items": {
+                "$ref": "#/definitions/OrderMarketChange"
+              }
+            },
+            "initialClk": {
+              "type": "string",
+              "description": "Token value (non-null) should be stored and passed in a MarketSubscriptionMessage to resume subscription (in case of disconnect)"
+            },
+            "conflateMs": {
+              "type": "integer",
+              "description": "Conflate Milliseconds - the conflation rate (may differ from that requested if subscription is delayed)",
+              "format": "int64"
+            },
+            "segmentType": {
+              "type": "string",
+              "description": "Segment Type - if the change is split into multiple segments, this denotes the beginning and end of a change, and segments in between. Will be null if data is not segmented",
+              "enum": [
+                "SEG_START",
+                "SEG",
+                "SEG_END"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "OrderMarketChange": {
+      "properties": {
+        "accountId": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "orc": {
+          "type": "array",
+          "description": "Order Changes - a list of changes to orders on a selection",
+          "items": {
+            "$ref": "#/definitions/OrderRunnerChange"
+          }
+        },
+        "closed": {
+          "type": "boolean"
+        },
+        "id": {
+          "type": "string",
+          "description": "Market Id - the id of the market the order is on"
+        }
+      }
+    },
+    "OrderRunnerChange": {
+      "properties": {
+        "mb": {
+          "type": "array",
+          "description": "Matched Backs - matched amounts by distinct matched price on the Back side for this runner (selection)",
+          "items": {
+            "type": "array",
+            "items": {
+              "type": "number",
+              "format": "double"
+            }
+          }
+        },
+        "smc": {
+          "type": "object",
+          "description": "Strategy Matches - Matched Backs and Matched Lays grouped by strategy reference",
+          "additionalProperties": {
+            "$ref": "#/definitions/StrategyMatchChange"
+          }
+        },
+        "uo": {
+          "type": "array",
+          "description": "Unmatched Orders - orders on this runner (selection) that are not fully matched",
+          "items": {
+            "$ref": "#/definitions/Order"
+          }
+        },
+        "id": {
+          "type": "integer",
+          "description": "Selection Id - the id of the runner (selection)",
+          "format": "int64"
+        },
+        "hc": {
+          "type": "number",
+          "description": "Handicap - the handicap of the runner (selection) (null if not applicable)",
+          "format": "double"
+        },
+        "fullImage": {
+          "type": "boolean"
+        },
+        "ml": {
+          "type": "array",
+          "description": "Matched Lays - matched amounts by distinct matched price on the Lay side for this runner (selection)",
+          "items": {
+            "type": "array",
+            "items": {
+              "type": "number",
+              "format": "double"
+            }
+          }
+        }
+      }
+    },
+    "Order": {
+      "properties": {
+        "side": {
+          "type": "string",
+          "description": "Side - the side of the order. For Line markets a 'B' bet refers to a SELL line and an 'L' bet refers to a BUY line.",
+          "enum": [
+            "B",
+            "L"
+          ]
+        },
+        "sv": {
+          "type": "number",
+          "description": "Size Voided - the amount of the order that has been voided",
+          "format": "double"
+        },
+        "pt": {
+          "type": "string",
+          "description": "Persistence Type - whether the order will persist at in play or not (L = LAPSE, P = PERSIST, MOC = Market On Close)",
+          "enum": [
+            "L",
+            "P",
+            "MOC"
+          ]
+        },
+        "ot": {
+          "type": "string",
+          "description": "Order Type - the type of the order (L = LIMIT, MOC = MARKET_ON_CLOSE, LOC = LIMIT_ON_CLOSE)",
+          "enum": [
+            "L",
+            "LOC",
+            "MOC"
+          ]
+        },
+        "p": {
+          "type": "number",
+          "description": "Price - the original placed price of the order. Line markets operate at even-money odds of 2.0. However, price for these markets refers to the line positions available as defined by the markets min-max range and interval steps",
+          "format": "double"
+        },
+        "sc": {
+          "type": "number",
+          "description": "Size Cancelled - the amount of the order that has been cancelled",
+          "format": "double"
+        },
+        "rc": {
+          "type": "string",
+          "description": "Regulator Code - the regulator of the order"
+        },
+        "s": {
+          "type": "number",
+          "description": "Size - the original placed size of the order",
+          "format": "double"
+        },
+        "pd": {
+          "type": "integer",
+          "description": "Placed Date - the date the order was placed",
+          "format": "int64"
+        },
+        "rac": {
+          "type": "string",
+          "description": "Regulator Auth Code - the auth code returned by the regulator"
+        },
+        "md": {
+          "type": "integer",
+          "description": "Matched Date - the date the order was matched (null if the order is not matched)",
+          "format": "int64"
+        },
+        "sl": {
+          "type": "number",
+          "description": "Size Lapsed - the amount of the order that has been lapsed",
+          "format": "double"
+        },
+        "avp": {
+          "type": "number",
+          "description": "Average Price Matched - the average price the order was matched at (null if the order is not matched). This value is not meaningful for activity on Line markets and is not guaranteed to be returned or maintained for these markets.",
+          "format": "double"
+        },
+        "sm": {
+          "type": "number",
+          "description": "Size Matched - the amount of the order that has been matched",
+          "format": "double"
+        },
+        "rfo": {
+          "type": "string",
+          "description": "Order Reference - the customer's order reference for this order (empty string if one was not set)"
+        },
+        "id": {
+          "type": "string",
+          "description": "Bet Id - the id of the order"
+        },
+        "bsp": {
+          "type": "number",
+          "description": "BSP Liability - the BSP liability of the order (null if the order is not a BSP order)",
+          "format": "double"
+        },
+        "rfs": {
+          "type": "string",
+          "description": "Strategy Reference - the customer's strategy reference for this order (empty string if one was not set)"
+        },
+        "status": {
+          "type": "string",
+          "description": "Status - the status of the order (E = EXECUTABLE, EC = EXECUTION_COMPLETE)",
+          "enum": [
+            "E",
+            "EC"
+          ]
+        },
+        "sr": {
+          "type": "number",
+          "description": "Size Remaining - the amount of the order that is remaining unmatched",
+          "format": "double"
+        }
+      }
+    },
+    "StrategyMatchChange": {
+      "properties": {
+        "mb": {
+          "type": "array",
+          "description": "Matched Backs - matched amounts by distinct matched price on the Back side for this strategy",
+          "items": {
+            "type": "array",
+            "items": {
+              "type": "number",
+              "format": "double"
+            }
+          }
+        },
+        "ml": {
+          "type": "array",
+          "description": "Matched Lays - matched amounts by distinct matched price on the Lay side for this strategy",
+          "items": {
+            "type": "array",
+            "items": {
+              "type": "number",
+              "format": "double"
+            }
+          }
+        }
+      }
+    },
+    "AllRequestTypesExample": {
+      "properties": {
+        "opTypes": {
+          "type": "string",
+          "enum": [
+            "heartbeat",
+            "authentication",
+            "marketSubscription",
+            "orderSubscription"
+          ]
+        },
+        "heartbeat": {
+          "type": "object",
+          "$ref": "#/definitions/HeartbeatMessage"
+        },
+        "orderSubscriptionMessage": {
+          "type": "object",
+          "$ref": "#/definitions/OrderSubscriptionMessage"
+        },
+        "marketSubscription": {
+          "type": "object",
+          "$ref": "#/definitions/MarketSubscriptionMessage"
+        },
+        "authentication": {
+          "type": "object",
+          "$ref": "#/definitions/AuthenticationMessage"
+        }
+      }
+    },
+    "AllResponseTypesExample": {
+      "properties": {
+        "opTypes": {
+          "type": "string",
+          "enum": [
+            "connection",
+            "status",
+            "mcm",
+            "ocm"
+          ]
+        },
+        "marketChangeMessage": {
+          "type": "object",
+          "$ref": "#/definitions/MarketChangeMessage"
+        },
+        "connection": {
+          "type": "object",
+          "$ref": "#/definitions/ConnectionMessage"
+        },
+        "orderChangeMessage": {
+          "type": "object",
+          "$ref": "#/definitions/OrderChangeMessage"
+        },
+        "status": {
+          "type": "object",
+          "$ref": "#/definitions/StatusMessage"
+        }
+      }
+    }
+  }
 }
