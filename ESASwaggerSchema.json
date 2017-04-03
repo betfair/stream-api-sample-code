@@ -981,6 +981,11 @@
           "description": "Matched Date - the date the order was matched (null if the order is not matched)",
           "format": "int64"
         },
+        "ld": {
+          "type": "integer",
+          "description": "Lapsed Date - the date the order was lapsed (null if the order is not lapsed)",
+          "format": "int64"
+        },
         "sl": {
           "type": "number",
           "description": "Size Lapsed - the amount of the order that has been lapsed",
