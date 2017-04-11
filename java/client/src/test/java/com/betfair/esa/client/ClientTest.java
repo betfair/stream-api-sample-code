@@ -93,7 +93,7 @@ public class ClientTest extends BaseTest{
         client.disconnect();
 
         //retry until connected
-        Awaitility.await().catchUncaughtExceptions().atMost(Duration.TEN_SECONDS).until(() -> {
+        Awaitility.await().catchUncaughtExceptions().atMost(Duration.ONE_MINUTE).until(() -> {
             try {
                 client.heartbeat();
                 return true;
