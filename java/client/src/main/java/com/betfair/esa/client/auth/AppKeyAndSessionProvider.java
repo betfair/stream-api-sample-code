@@ -8,6 +8,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.time.Clock;
 import java.time.Duration;
 import java.time.Instant;
@@ -66,7 +68,10 @@ public class AppKeyAndSessionProvider {
         logger.info("SSO Login host={}, appkey={}, username={}", host, appkey, username);
         SessionDetails sessionDetails;
         try {
-            String uri = String.format("https://%s/api/login?username=%s&password=%s", host, username, password);
+            String uri = String.format("https://%s/api/login?username=%s&password=%s",
+                    host,
+                    URLEncoder.encode(username, StandardCharsets.UTF_8.name()),
+                    URLEncoder.encode(password, StandardCharsets.UTF_8.name()));
 
             Client client = Client.create();
             client.setConnectTimeout((int) (timeout.getSeconds() * 1000));
