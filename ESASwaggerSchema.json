@@ -429,6 +429,11 @@
                 "SEG",
                 "SEG_END"
               ]
+            },
+            "status": {
+              "type": "integer",
+              "description": "Stream status: set to null if the exchange stream data is up to date and 503 if the downstream services are experiencing latencies",
+              "format": "int32"
             }
           }
         }
@@ -506,7 +511,7 @@
         },
         "lineMaxUnit": {
           "type": "number",
-          "description": "For Line markets, maximum value for the outcome, in market units for this market (eg 100 runs).",
+          "description": "For Handicap and Line markets, the maximum value for the outcome, in market units for this market (eg 100 runs).",
           "format": "double"
         },
         "inPlay": {
@@ -535,7 +540,7 @@
         },
         "lineMinUnit": {
           "type": "number",
-          "description": "For Line markets, minimum value for the outcome, in market units for this market (eg 0 runs).",
+          "description": "For Handicap and Line markets, the minimum value for the outcome, in market units for this market (eg 0 runs).",
           "format": "double"
         },
         "eventId": {
@@ -590,7 +595,7 @@
         },
         "lineInterval": {
           "type": "number",
-          "description": "For Line markets, the odds ladder on this market will be between the range of lineMinUnit and lineMaxUnit, in increments of the interval value.e.g. If lineMinUnit=10 runs, lineMaxUnit=20 runs, lineInterval=0.5 runs, then valid odds include 10, 10.5, 11, 11.5 up to 20 runs.",
+          "description": "For Handicap and Line markets, the lines available on this market will be between the range of lineMinUnit and lineMaxUnit, in increments of the lineInterval value. e.g. If unit is runs, lineMinUnit=10, lineMaxUnit=20 and lineInterval=0.5, then valid lines include 10, 10.5, 11, 11.5 up to 20 runs.",
           "format": "double"
         },
         "status": {
@@ -835,6 +840,11 @@
                 "SEG",
                 "SEG_END"
               ]
+            },
+            "status": {
+              "type": "integer",
+              "description": "Stream status: set to null if the exchange stream data is up to date and 503 if the downstream services are experiencing latencies",
+              "format": "int32"
             }
           }
         }
