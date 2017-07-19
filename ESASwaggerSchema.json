@@ -555,6 +555,16 @@
         "turnInPlayEnabled": {
           "type": "boolean"
         },
+        "priceLadderDefinition": {
+          "type": "object",
+          "$ref": "#/definitions/PriceLadderDefinition",
+          "description": "Definition of the price ladder type and any related data."
+        },
+        "keyLineDefinition": {
+          "type": "object",
+          "$ref": "#/definitions/KeyLineDefinition",
+          "description": "Definition of a markets key line selection (for valid markets), comprising the selectionId and handicap of the team it is applied to."
+        },
         "suspendTime": {
           "type": "string",
           "format": "date-time"
@@ -648,6 +658,40 @@
             "HIDDEN",
             "PLACED"
           ]
+        }
+      }
+    },
+    "PriceLadderDefinition": {
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": [
+            "CLASSIC",
+            "FINEST",
+            "LINE_RANGE"
+          ]
+        }
+      }
+    },
+    "KeyLineDefinition": {
+      "properties": {
+        "kl": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/KeyLineSelection"
+          }
+        }
+      }
+    },
+    "KeyLineSelection": {
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "hc": {
+          "type": "number",
+          "format": "double"
         }
       }
     },
