@@ -477,6 +477,9 @@
         "venue": {
           "type": "string"
         },
+        "raceType": {
+          "type": "string"
+        },
         "settledTime": {
           "type": "string",
           "format": "date-time"
