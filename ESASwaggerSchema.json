@@ -184,6 +184,12 @@
         },
         "bspMarket": {
           "type": "boolean"
+        },
+        "raceTypes": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
         }
       }
     },
