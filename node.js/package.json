@@ -1,0 +1,13 @@
+{
+  "name": "app.js",
+  "version": "1.0.0",
+  "description": "Simple app for connecting to Betfair Stream Api",
+  "main": "app.js",
+  "dependencies": {},
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Betfair",
+  "license": "Betfair"
+}
