@@ -80,6 +80,7 @@ public class AppKeyAndSessionProvider {
             ClientResponse clientResponse = webResource
                     .accept("application/json")
                     .header("X-Application", appkey)
+                    .header("Content-Type", "application/x-www-form-urlencoded")
                     .post(ClientResponse.class);
 
             mapper = new ObjectMapper();
