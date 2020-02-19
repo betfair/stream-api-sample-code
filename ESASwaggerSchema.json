@@ -336,6 +336,11 @@
         {
           "type": "object",
           "properties": {
+            "connectionsAvailable": {
+              "type": "integer",
+              "description": "The number of connections available for this account at this moment in time. Present on responses to Authentication messages only.",
+              "format": "int32"
+            },
             "errorMessage": {
               "type": "string",
               "description": "Additional message in case of a failure"
@@ -356,7 +361,8 @@
                 "SUBSCRIPTION_LIMIT_EXCEEDED",
                 "INVALID_REQUEST",
                 "CONNECTION_FAILED",
-                "MAX_CONNECTION_LIMIT_EXCEEDED"
+                "MAX_CONNECTION_LIMIT_EXCEEDED",
+                "TOO_MANY_REQUESTS"
               ]
             },
             "connectionId": {
@@ -1010,6 +1016,10 @@
             "LOC",
             "MOC"
           ]
+        },
+        "lsrc": {
+          "type": "string",
+          "description": "Lapse Status Reason Code - the reason that some or all of this order has been lapsed (null if no portion of the order is lapsed"
         },
         "p": {
           "type": "number",
