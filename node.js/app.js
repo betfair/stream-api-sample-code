@@ -15,7 +15,7 @@ var client = tls.connect(options, function () {
 
 /*	Send authentication message */
 
-client.write('{"op": "authentication", "appKey": "<you-appkey>", "session": "<your-session>}\r\n');
+client.write('{"op": "authentication", "appKey": "<you-appkey>", "session": "<your-session>"}\r\n');
 
 
 /*	Subscribe to order/market stream */
