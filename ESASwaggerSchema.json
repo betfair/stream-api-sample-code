@@ -928,6 +928,9 @@
         "id": {
           "type": "string",
           "description": "Market Id - the id of the market the order is on"
+        },
+        "fullImage": {
+          "type": "boolean"
         }
       }
     },
