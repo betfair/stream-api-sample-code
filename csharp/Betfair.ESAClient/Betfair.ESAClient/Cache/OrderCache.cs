@@ -33,6 +33,13 @@ namespace Betfair.ESAClient.Cache
 
                 foreach (OrderMarketChange marketChange in changeMessage.Items)
                 {
+                    bool isImage = marketChange.FullImage == true;
+                    if (isImage)
+                        // Clear market from cache if it is being re-imaged
+                        OrderMarket removed;
+                        _markets.TryRemove(marketChange.Id, out removed);
+                    }
+
                     OrderMarket market = OnOrderMarketChange(marketChange);
 
                     if(IsOrderMarketRemovedOnClose && market.IsClosed)
