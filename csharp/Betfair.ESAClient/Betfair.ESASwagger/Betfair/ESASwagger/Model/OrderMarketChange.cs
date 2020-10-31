@@ -26,14 +26,16 @@ namespace Betfair.ESASwagger.Model
         /// <param name="Orc">Order Changes - a list of changes to orders on a selection.</param>
         /// <param name="Closed">Closed.</param>
         /// <param name="Id">Market Id - the id of the market the order is on.</param>
+        /// <param name="FullImage">FullImage.</param>
 
-        public OrderMarketChange(long? AccountId = null, List<OrderRunnerChange> Orc = null, bool? Closed = null, string Id = null)
+        public OrderMarketChange(long? AccountId = null, List<OrderRunnerChange> Orc = null, bool? Closed = null, string Id = null, bool? FullImage = null)
         {
             this.AccountId = AccountId;
             this.Orc = Orc;
             this.Closed = Closed;
             this.Id = Id;
-            
+            this.FullImage = FullImage;
+
         }
         
     
@@ -62,6 +64,12 @@ namespace Betfair.ESASwagger.Model
         /// <value>Market Id - the id of the market the order is on</value>
         [DataMember(Name="id", EmitDefaultValue=false)]
         public string Id { get; set; }
+
+        /// <summary>
+        /// Gets or Sets FullImage
+        /// </summary>
+        [DataMember(Name="fullImage", EmitDefaultValue=false)]
+        public bool? FullImage { get; set; }
     
         /// <summary>
         /// Returns the string presentation of the object
@@ -75,7 +83,8 @@ namespace Betfair.ESASwagger.Model
             sb.Append("  Orc: ").Append(Orc).Append("\n");
             sb.Append("  Closed: ").Append(Closed).Append("\n");
             sb.Append("  Id: ").Append(Id).Append("\n");
-            
+            sb.Append("  FullImage: ").Append(FullImage).Append("\n");
+
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -131,6 +140,11 @@ namespace Betfair.ESASwagger.Model
                     this.Id == other.Id ||
                     this.Id != null &&
                     this.Id.Equals(other.Id)
+                ) &&
+                (
+                    this.FullImage == other.FullImage ||
+                    this.FullImage != null &&
+                    this.FullImage.Equals(other.FullImage)
                 );
         }
 
@@ -157,7 +171,10 @@ namespace Betfair.ESASwagger.Model
                 
                 if (this.Id != null)
                     hash = hash * 59 + this.Id.GetHashCode();
-                
+
+                if (this.FullImage != null)
+                    hash = hash * 59 + this.FullImage.GetHashCode();
+
                 return hash;
             }
         }
