@@ -134,8 +134,9 @@ namespace Betfair.ESASwagger.Model
         /// <param name="Bsp">BSP Liability - the BSP liability of the order (null if the order is not a BSP order).</param>
         /// <param name="Status">Status - the status of the order (E = EXECUTABLE, EC = EXECUTION_COMPLETE).</param>
         /// <param name="Sr">Size Remaining - the amount of the order that is remaining unmatched.</param>
+        /// <param name="Cd">Cancelled Date - the date the order was cancelled (null if the order is not cancelled).</param>
 
-        public Order(SideEnum? Side = null, double? Sv = null, PtEnum? Pt = null, OtEnum? Ot = null, double? P = null, double? Sc = null, string Rc = null, double? S = null, long? Pd = null, string Rac = null, long? Md = null, double? Sl = null, double? Avp = null, double? Sm = null, string Id = null, double? Bsp = null, StatusEnum? Status = null, double? Sr = null)
+        public Order(SideEnum? Side = null, double? Sv = null, PtEnum? Pt = null, OtEnum? Ot = null, double? P = null, double? Sc = null, string Rc = null, double? S = null, long? Pd = null, string Rac = null, long? Md = null, double? Sl = null, double? Avp = null, double? Sm = null, string Id = null, double? Bsp = null, StatusEnum? Status = null, double? Sr = null, long? Cd = null)
         {
             this.Side = Side;
             this.Sv = Sv;
@@ -155,7 +156,8 @@ namespace Betfair.ESASwagger.Model
             this.Bsp = Bsp;
             this.Status = Status;
             this.Sr = Sr;
-            
+            this.Cd = Cd;
+
         }
         
     
@@ -256,6 +258,13 @@ namespace Betfair.ESASwagger.Model
         /// <value>Size Remaining - the amount of the order that is remaining unmatched</value>
         [DataMember(Name="sr", EmitDefaultValue=false)]
         public double? Sr { get; set; }
+
+        /// <summary>
+        /// Cancelled Date - the date the order was cancelled (null if the order is not cancelled)
+        /// </summary>
+        /// <value>Cancelled Date - the date the order was cancelled (null if the order is not cancelled)</value>
+        [DataMember(Name="cd", EmitDefaultValue=false)]
+        public long? Cd { get; set; }
     
         /// <summary>
         /// Returns the string presentation of the object
@@ -283,7 +292,8 @@ namespace Betfair.ESASwagger.Model
             sb.Append("  Bsp: ").Append(Bsp).Append("\n");
             sb.Append("  Status: ").Append(Status).Append("\n");
             sb.Append("  Sr: ").Append(Sr).Append("\n");
-            
+            sb.Append("  Cd: ").Append(Cd).Append("\n");
+
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -409,6 +419,11 @@ namespace Betfair.ESASwagger.Model
                     this.Sr == other.Sr ||
                     this.Sr != null &&
                     this.Sr.Equals(other.Sr)
+                ) &&
+                (
+                    this.Cd == other.Cd ||
+                    this.Cd != null &&
+                    this.Cd.Equals(other.Cd)
                 );
         }
 
@@ -441,7 +456,7 @@ namespace Betfair.ESASwagger.Model
                 
                 if (this.Sc != null)
                     hash = hash * 59 + this.Sc.GetHashCode();
-                
+
                 if (this.Rc != null)
                     hash = hash * 59 + this.Rc.GetHashCode();
                 
@@ -477,7 +492,10 @@ namespace Betfair.ESASwagger.Model
                 
                 if (this.Sr != null)
                     hash = hash * 59 + this.Sr.GetHashCode();
-                
+
+                if (this.Cd != null)
+                    hash = hash * 59 + this.Cd.GetHashCode();
+
                 return hash;
             }
         }

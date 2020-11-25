@@ -207,7 +207,7 @@ public class ClientCommands extends DefaultPromptProvider implements CommandMark
             orders.addAll(orderMarketRunnerSnap.getUnmatchedOrders().values());
         });
 
-        BeanListTableModel model = new BeanListTableModel(orders, createHeader( "id","side", "pt","ot", "status","sv","p","sc","rc","s","pd","rac","md","sl","avp","sm","bsp","sr"));
+        BeanListTableModel model = new BeanListTableModel(orders, createHeader( "id","side", "pt","ot", "status","sv","p","sc","rc","s","pd","rac","md", "cd", "ld", "sl","avp","sm","bsp","sr"));
         renderTable(model);
     }
 

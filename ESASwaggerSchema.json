@@ -1057,6 +1057,11 @@
           "description": "Matched Date - the date the order was matched (null if the order is not matched)",
           "format": "int64"
         },
+        "cd": {
+          "type": "integer",
+          "description": "Cancelled Date - the date the order was cancelled (null if the order is not cancelled)",
+          "format": "int64"
+        },
         "ld": {
           "type": "integer",
           "description": "Lapsed Date - the date the order was lapsed (null if the order is not lapsed)",
