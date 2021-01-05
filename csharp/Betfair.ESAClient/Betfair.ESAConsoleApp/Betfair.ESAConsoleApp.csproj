@@ -34,18 +34,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="ConsoleTables.Core, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\ConsoleTables.1.1.0\lib\net40\ConsoleTables.Core.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="NCommand, Version=0.1.5769.40163, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\NCommand.0.1.5769.40163\lib\net45\NCommand.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="NCommand.Console, Version=0.1.5769.40164, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\NCommand.Console.0.1.5769.40164\lib\net45\NCommand.Console.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -66,7 +54,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -81,6 +68,11 @@
       <Project>{05419e45-cad4-4fb6-bc46-b93119d9f22d}</Project>
       <Name>Betfair.ESASwagger.Portable</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="ConsoleTables" Version="1.1.0" />
+    <PackageReference Include="NCommand" Version="0.1.5769.40163" />
+    <PackageReference Include="NCommand.Console" Version="0.1.5769.40164" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -68,23 +68,13 @@
     <Compile Include="Protocol\SubscriptionHandler.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="Newtonsoft.Json, Version=8.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.8.0.3\lib\portable-net40+sl5+wp80+win8+wpa81\Newtonsoft.Json.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Runtime.Serialization.Primitives">
       <HintPath>..\..\..\..\..\..\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETPortable\v4.5\Profile\Profile111\System.Runtime.Serialization.Primitives.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Betfair.ESASwagger.Portable\Betfair.ESASwagger.Portable.csproj">
-      <Project>{05419e45-cad4-4fb6-bc46-b93119d9f22d}</Project>
-      <Name>Betfair.ESASwagger.Portable</Name>
-    </ProjectReference>
+    <PackageReference Include="Newtonsoft.Json" Version="8.0.3" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
