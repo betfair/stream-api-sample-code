@@ -64,13 +64,13 @@
       <Project>{C6F11E1B-DA85-41BC-9DEE-B941D3C6A805}</Project>
       <Name>Betfair.ESAClient</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Betfair.ESASwagger.Portable\Betfair.ESASwagger.Portable.csproj">
-      <Project>{05419e45-cad4-4fb6-bc46-b93119d9f22d}</Project>
-      <Name>Betfair.ESASwagger.Portable</Name>
+    <ProjectReference Include="..\Betfair.ESASwagger\Betfair.ESASwagger.csproj">
+      <Project>{84a4f60c-5348-4ea0-849c-e6a1b204ec28}</Project>
+      <Name>Betfair.ESASwagger</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="ConsoleTables" Version="1.1.0" />
+    <PackageReference Include="ConsoleTables" Version="2.4.2" />
     <PackageReference Include="NCommand" Version="0.1.5769.40163" />
     <PackageReference Include="NCommand.Console" Version="0.1.5769.40164" />
   </ItemGroup>

@@ -1,86 +1,75 @@
-﻿using Betfair.ESAClient.Protocol;
+﻿using System;
+using Betfair.ESAClient.Protocol;
 using Betfair.ESASwagger.Model;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Betfair.ESAClient.Test.Impl
-{
+namespace Betfair.ESAClient.Test.Impl {
     [TestClass]
-    public class RequestResponseProcessorTest
-    {
-        RequestResponseProcessor Processor { get; set; }
+    public class RequestResponseProcessorTest {
+        private RequestResponseProcessor Processor { get; set; }
         public string LastLine { get; private set; }
 
         [TestInitialize]
-        public void Init()
-        {
+        public void Init() {
             Processor = new RequestResponseProcessor(line => LastLine = line);
         }
 
         [TestMethod]
-        public void TestJsonNoOp()
-        {
+        public void TestJsonNoOp() {
             Processor.ReceiveLine("{}");
         }
 
         [TestMethod]
-        public void TestJsonUnknownOp()
-        {
+        public void TestJsonUnknownOp() {
             Processor.ReceiveLine("{\"op\": \"rubbish\"}");
         }
 
         [TestMethod]
-        public void TestOpNotFirst()
-        {
-            ConnectionMessage msg = (ConnectionMessage)Processor.ReceiveLine("{\"connectionId\":\"aconnid\", \"op\":\"connection\"}");
+        public void TestOpNotFirst() {
+            var msg = (ConnectionMessage) Processor.ReceiveLine("{\"connectionId\":\"aconnid\", \"op\":\"connection\"}");
             Assert.AreEqual("aconnid", msg.ConnectionId);
         }
 
         [TestMethod]
-        public void TestExtraJsonField()
-        {
-            ConnectionMessage msg = (ConnectionMessage)Processor.ReceiveLine("{\"op\":\"connection\", \"connectionId\":\"aconnid\", \"extraField\":\"extraValue\"}");
+        public void TestExtraJsonField() {
+            var msg = (ConnectionMessage) Processor.ReceiveLine("{\"op\":\"connection\", \"connectionId\":\"aconnid\", \"extraField\":\"extraValue\"}");
             Assert.AreEqual("aconnid", msg.ConnectionId);
         }
 
         [TestMethod]
-        public void TestJsonMissingField()
-        {
-            ConnectionMessage msg = (ConnectionMessage)Processor.ReceiveLine("{\"op\":\"connection\"}");
+        public void TestJsonMissingField() {
+            var msg = (ConnectionMessage) Processor.ReceiveLine("{\"op\":\"connection\"}");
             Assert.IsNotNull(msg);
         }
 
         [TestMethod]
         [ExpectedException(typeof(JsonException), AllowDerivedTypes = true)]
-        public void TestInvalidJson()
-        {
+        public void TestInvalidJson() {
             Processor.ReceiveLine("rubbish");
         }
 
         [TestMethod]
-        public void TestConnectionMessageUnwind()
-        {
+        public void TestConnectionMessageUnwind() {
             //wait and get timeout
-            Assert.IsFalse(Processor.ConnectionMessage().Wait(10));
+            Assert.IsFalse(Processor.ConnectionMessage()
+                .Wait(10));
 
             //process
-            ConnectionMessage msg = (ConnectionMessage)Processor.ReceiveLine("{\"op\":\"connection\", \"connectionId\":\"aconnid\"}");
+            var msg = (ConnectionMessage) Processor.ReceiveLine("{\"op\":\"connection\", \"connectionId\":\"aconnid\"}");
 
             //now unwound
-            Assert.IsTrue(Processor.ConnectionMessage().Wait(10));
-            Assert.AreEqual("aconnid", Processor.ConnectionMessage().Result.ConnectionId);
+            Assert.IsTrue(Processor.ConnectionMessage()
+                .Wait(10));
+            Assert.AreEqual("aconnid",
+                Processor.ConnectionMessage()
+                    .Result.ConnectionId);
             Assert.AreEqual(ConnectionStatus.CONNECTED, Processor.Status);
         }
 
         [TestMethod]
-        public void TestAuthentication()
-        {
-            var authTask = Processor.Authenticate(new AuthenticationMessage() { Session = "asession", AppKey = "aappkey" });
+        public void TestAuthentication() {
+            var authTask = Processor.Authenticate(new AuthenticationMessage {Session = "asession", AppKey = "aappkey"});
             Console.WriteLine(LastLine);
 
             //wait and get timeout
@@ -96,15 +85,14 @@ namespace Betfair.ESAClient.Test.Impl
         }
 
         [TestMethod]
-        public void TestAuthenticationFailed()
-        {
-            var authTask = Processor.Authenticate(new AuthenticationMessage() { Session = "asession", AppKey = "aappkey" });
-            
+        public void TestAuthenticationFailed() {
+            var authTask = Processor.Authenticate(new AuthenticationMessage {Session = "asession", AppKey = "aappkey"});
+
             //wait and get timeout
             Assert.IsFalse(authTask.Wait(10));
 
             Processor.ReceiveLine("{\"op\":\"status\",\"id\":1,\"statusCode\":\"FAILURE\", \"errorCode\":\"NO_SESSION\"}");
-            
+
             //wait and pass
             Assert.IsTrue(authTask.Wait(10));
 
@@ -114,8 +102,7 @@ namespace Betfair.ESAClient.Test.Impl
         }
 
         [TestMethod]
-        public void TestHeartbeat()
-        {
+        public void TestHeartbeat() {
             var authTask = Processor.Heartbeat(new HeartbeatMessage());
             Console.WriteLine(LastLine);
 
