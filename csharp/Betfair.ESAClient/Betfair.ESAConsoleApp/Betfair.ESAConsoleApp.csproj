@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Betfair.ESAConsoleApp</RootNamespace>
     <AssemblyName>Betfair.ESAConsoleApp</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <TargetFrameworkProfile />
@@ -34,18 +34,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="ConsoleTables.Core, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\ConsoleTables.1.1.0\lib\net40\ConsoleTables.Core.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="NCommand, Version=0.1.5769.40163, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\NCommand.0.1.5769.40163\lib\net45\NCommand.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="NCommand.Console, Version=0.1.5769.40164, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\NCommand.Console.0.1.5769.40164\lib\net45\NCommand.Console.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -66,7 +54,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -78,9 +65,14 @@
       <Name>Betfair.ESAClient</Name>
     </ProjectReference>
     <ProjectReference Include="..\Betfair.ESASwagger\Betfair.ESASwagger.csproj">
-      <Project>{05419E45-CAD4-4FB6-BC46-B93119D9F22D}</Project>
+      <Project>{84a4f60c-5348-4ea0-849c-e6a1b204ec28}</Project>
       <Name>Betfair.ESASwagger</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="ConsoleTables" Version="2.4.2" />
+    <PackageReference Include="NCommand" Version="0.1.5769.40163" />
+    <PackageReference Include="NCommand.Console" Version="0.1.5769.40164" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

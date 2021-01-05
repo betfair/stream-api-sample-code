@@ -4,15 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Betfair.ESAClient.Auth
-{
+namespace Betfair.ESAClient.Auth {
     /// <summary>
     /// Wraps an appkey & it's current session
     /// </summary>
-    public class AppKeyAndSession
-    {
-        public AppKeyAndSession(string appkey, string session)
-        {
+    public class AppKeyAndSession {
+        public AppKeyAndSession(string appkey, string session) {
             AppKey = appkey;
             Session = session;
             CreateTime = DateTime.UtcNow;

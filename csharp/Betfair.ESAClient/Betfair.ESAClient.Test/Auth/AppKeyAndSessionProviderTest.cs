@@ -1,37 +1,25 @@
-﻿using Betfair.ESAClient.Auth;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
+﻿using System.IO;
 using System.Security.Authentication;
-using System.Text;
-using System.Threading.Tasks;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Betfair.ESAClient.Test.Auth
-{
+namespace Betfair.ESAClient.Test.Auth {
     [TestClass]
-    public class AppKeyAndSessionProviderTest : BaseTest
-    {
-
+    public class AppKeyAndSessionProviderTest : BaseTest {
         [TestMethod]
-        public void TestValidSession()
-        {
-            AppKeyAndSession session = ValidSessionProvider.GetOrCreateNewSession();
+        public void TestValidSession() {
+            var session = ValidSessionProvider.GetOrCreateNewSession();
             Assert.IsNotNull(session);
         }
 
         [TestMethod]
         [ExpectedException(typeof(IOException))]
-        public void TestInvalidHost()
-        {
+        public void TestInvalidHost() {
             InvalidHostSessionProvider.GetOrCreateNewSession();
         }
 
         [TestMethod]
         [ExpectedException(typeof(InvalidCredentialException))]
-        public void TestInvalidLogin()
-        {
+        public void TestInvalidLogin() {
             InvalidLoginSessionProvider.GetOrCreateNewSession();
         }
     }
