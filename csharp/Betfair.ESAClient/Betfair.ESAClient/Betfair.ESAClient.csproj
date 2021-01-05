@@ -12,7 +12,8 @@
     <AssemblyName>Betfair.ESAClient</AssemblyName>
     <DefaultLanguage>en-US</DefaultLanguage>
     <FileAlignment>512</FileAlignment>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -31,13 +32,6 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
-  <ItemGroup>
-    <!-- A reference to the entire .NET Framework is automatically included -->
-    <ProjectReference Include="..\Betfair.ESASwagger\Betfair.ESASwagger.csproj">
-      <Project>{05419e45-cad4-4fb6-bc46-b93119d9f22d}</Project>
-      <Name>Betfair.ESASwagger</Name>
-    </ProjectReference>
-  </ItemGroup>
   <ItemGroup>
     <Compile Include="Auth\AppKeyAndSession.cs" />
     <Compile Include="Auth\AppKeyAndSessionProvider.cs" />
@@ -85,6 +79,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Betfair.ESASwagger.Portable\Betfair.ESASwagger.Portable.csproj">
+      <Project>{05419e45-cad4-4fb6-bc46-b93119d9f22d}</Project>
+      <Name>Betfair.ESASwagger.Portable</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.

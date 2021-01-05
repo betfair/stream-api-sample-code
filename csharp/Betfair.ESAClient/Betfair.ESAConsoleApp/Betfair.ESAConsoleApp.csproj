@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Betfair.ESAConsoleApp</RootNamespace>
     <AssemblyName>Betfair.ESAConsoleApp</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <TargetFrameworkProfile />
@@ -77,9 +77,9 @@
       <Project>{C6F11E1B-DA85-41BC-9DEE-B941D3C6A805}</Project>
       <Name>Betfair.ESAClient</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Betfair.ESASwagger\Betfair.ESASwagger.csproj">
-      <Project>{05419E45-CAD4-4FB6-BC46-B93119D9F22D}</Project>
-      <Name>Betfair.ESASwagger</Name>
+    <ProjectReference Include="..\Betfair.ESASwagger.Portable\Betfair.ESASwagger.Portable.csproj">
+      <Project>{05419e45-cad4-4fb6-bc46-b93119d9f22d}</Project>
+      <Name>Betfair.ESASwagger.Portable</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

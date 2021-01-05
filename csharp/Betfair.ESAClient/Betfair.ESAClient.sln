@@ -1,15 +1,17 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25123.0
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30804.86
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Betfair.ESASwagger", "Betfair.ESASwagger\Betfair.ESASwagger.csproj", "{05419E45-CAD4-4FB6-BC46-B93119D9F22D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Betfair.ESASwagger.Portable", "Betfair.ESASwagger.Portable\Betfair.ESASwagger.Portable.csproj", "{05419E45-CAD4-4FB6-BC46-B93119D9F22D}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Betfair.ESAClient", "Betfair.ESAClient\Betfair.ESAClient.csproj", "{C6F11E1B-DA85-41BC-9DEE-B941D3C6A805}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Betfair.ESAConsoleApp", "Betfair.ESAConsoleApp\Betfair.ESAConsoleApp.csproj", "{5099FDF2-C990-4334-A305-33C30F1C9950}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Betfair.ESAClient.Test", "Betfair.ESAClient.Test\Betfair.ESAClient.Test.csproj", "{19CC59D3-3664-4AA7-919A-CB39470976EA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Betfair.ESASwagger", "Betfair.ESASwagger\Betfair.ESASwagger.csproj", "{84A4F60C-5348-4EA0-849C-E6A1B204EC28}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,8 +35,15 @@ Global
 		{19CC59D3-3664-4AA7-919A-CB39470976EA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{19CC59D3-3664-4AA7-919A-CB39470976EA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{19CC59D3-3664-4AA7-919A-CB39470976EA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{84A4F60C-5348-4EA0-849C-E6A1B204EC28}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{84A4F60C-5348-4EA0-849C-E6A1B204EC28}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{84A4F60C-5348-4EA0-849C-E6A1B204EC28}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{84A4F60C-5348-4EA0-849C-E6A1B204EC28}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {0D51C665-AA80-4BF7-9604-B48E22B5A756}
 	EndGlobalSection
 EndGlobal
