@@ -43,7 +43,7 @@ public class OrderMarket {
 
         newSnap.setOrderMarketRunners(snaps);
 
-        isClosed = Boolean.TRUE.equals(orderMarketChange.getClosed());
+        isClosed = Boolean.TRUE.equals(orderMarketChange.isClosed());
         newSnap.setClosed(isClosed);
 
         orderMarketSnap = newSnap;

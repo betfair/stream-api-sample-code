@@ -4,7 +4,8 @@ package com.betfair.esa.console;
  * Created by HoszuA on 11/07/2016.
  */
 
-import org.springframework.shell.Bootstrap;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import java.io.IOException;
 
@@ -15,10 +16,10 @@ import java.io.IOException;
         *  On Windows machines:
         * -Djline.WindowsTerminal.directConsole=false -Djline.terminal=jline.UnsupportedTerminal
         */
-public final class ClientMain {
-    private ClientMain() {}
 
-    public static void main(String[] args) throws IOException {
-        Bootstrap.main(args);
+@SpringBootApplication
+public class ClientMain {
+    public static void main(String[] args) {
+        SpringApplication.run(ClientMain.class, args);
     }
 }

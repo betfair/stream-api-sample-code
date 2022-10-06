@@ -32,7 +32,7 @@ public class Market {
 
     void onMarketChange(MarketChange marketChange) {
         //initial image means we need to wipe our data
-        boolean isImage = Boolean.TRUE.equals(marketChange.getImg());
+        boolean isImage = Boolean.TRUE.equals(marketChange.isImg());
         //market definition changed
         Optional.ofNullable(marketChange.getMarketDefinition()).ifPresent(this::onMarketDefinitionChange);
         //runners changed

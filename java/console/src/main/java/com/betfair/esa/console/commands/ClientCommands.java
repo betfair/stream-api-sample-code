@@ -14,25 +14,26 @@ import com.betfair.esa.client.protocol.StatusException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.shell.core.CommandMarker;
-import org.springframework.shell.core.annotation.CliCommand;
-import org.springframework.shell.core.annotation.CliOption;
-import org.springframework.shell.plugin.support.DefaultPromptProvider;
+import org.springframework.shell.standard.ShellComponent;
+import org.springframework.shell.standard.ShellMethod;
+import org.springframework.shell.standard.ShellOption;
 import org.springframework.shell.table.BeanListTableModel;
 import org.springframework.shell.table.BorderStyle;
 import org.springframework.shell.table.Table;
-import org.springframework.stereotype.Component;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Properties;
 
+import static org.springframework.shell.standard.ShellOption.NULL;
 
-@Component
+
+@ShellComponent
 @Configuration
-public class ClientCommands extends DefaultPromptProvider implements CommandMarker, MarketCache.MarketChangeListener, OrderCache.OrderMarketChangeListener {
+public class ClientCommands implements MarketCache.MarketChangeListener, OrderCache.OrderMarketChangeListener {
 
     public static final String CONFIG_PROPERTIES = "config.properties";
     public static final String HOST_NAME = "host";
@@ -43,7 +44,7 @@ public class ClientCommands extends DefaultPromptProvider implements CommandMark
     public static final int PORT = 443;
 
     private final Logger logger = LoggerFactory.getLogger(getClass().getName());
-    private Properties properties = new Properties();
+    private final Properties properties = new Properties();
     private AppKeyAndSessionProvider sessionProvider;
     private ClientCache clientCache;
     private Client client;
@@ -93,11 +94,11 @@ public class ClientCommands extends DefaultPromptProvider implements CommandMark
     }
 
 
-    @CliCommand(value = "saveLogin", help = "Save Login - (not encrypted)")
-    public void saveLogin(@CliOption(key = {"host"}, specifiedDefaultValue = "identitysso.betfair.com", unspecifiedDefaultValue = "identitysso.betfair.com", help = "sso host") String host,
-                          @CliOption(key = {"appKey"}, mandatory = true, help = "app key") String appKey,
-                          @CliOption(key = {"userName"}, mandatory = true, help = "user name") String userName,
-                          @CliOption(key = {"password"}, mandatory = true, help = "password") String password
+    @ShellMethod(key = "saveLogin", value = "Save Login - (not encrypted)")
+    public void saveLogin(@ShellOption(value = {"--host"}, defaultValue = "identitysso.betfair.com", help = "sso host") String host,
+                          @ShellOption(value = {"--appKey"}, defaultValue = NULL, help = "app key") String appKey,
+                          @ShellOption(value = {"--userName"}, defaultValue = NULL, help = "user name") String userName,
+                          @ShellOption(value = {"--password"}, defaultValue = NULL, help = "password") String password
     ) throws IOException, InvalidCredentialException {
         properties.setProperty(APP_KEY, appKey);
         properties.setProperty(USER_NAME, userName);
@@ -115,70 +116,70 @@ public class ClientCommands extends DefaultPromptProvider implements CommandMark
     }
 
 
-    @CliCommand(value = "market", help = "subscribes to market(s) (comma separated with no spaces)")
-    public void market(@CliOption(key = {""}, mandatory = true, help = "marketId") String... marketId) throws ConnectionException, StatusException, InvalidCredentialException {
+    @ShellMethod("subscribes to market(s) (comma separated with no spaces)")
+    public void market(@ShellOption(defaultValue = NULL, help = "marketId") String... marketId) throws ConnectionException, StatusException, InvalidCredentialException {
         getClientCache().subscribeMarkets(marketId);
     }
 
-    @CliCommand(value = "marketFirehose", help = "subscribes to all markets")
+    @ShellMethod(key = "marketFirehose", value = "subscribes to all markets")
     public void marketFirehose() throws ConnectionException, StatusException, InvalidCredentialException {
         getClientCache().subscribeMarkets();
     }
 
 
-    @CliCommand(value = "orders", help = "subscribes to orders")
+    @ShellMethod(key = "orders", value = "subscribes to orders")
     public void orders() throws ConnectionException, StatusException, InvalidCredentialException {
         getClientCache().subscribeOrders();
     }
 
-    @CliCommand(value = "listMarkets", help = "lists the cached markets")
+    @ShellMethod(key = "listMarkets", value = "lists the cached markets")
     public void listMarkets() {
         for (Market market : getClientCache().getMarketCache().getMarkets()) {
             printMarket(market.getSnap());
         }
     }
 
-    @CliCommand(value = "listOrders", help = "lists the cached orders")
+    @ShellMethod(key = "listOrders", value = "lists the cached orders")
     public void listOrders() {
         for (OrderMarket orderMarket : getClientCache().getOrderCache().getOrderMarkets()) {
             printOrderMarket(orderMarket.getOrderMarketSnap());
         }
     }
 
-    @CliCommand(value = "traceMarkets", help = "trace Markets")
+    @ShellMethod(key = "traceMarkets", value = "trace Markets")
     public void traceMarkets() {
         traceMarkets = true;
     }
 
-    @CliCommand(value = "traceOrders", help = "trace Orders")
+    @ShellMethod(key = "traceOrders", value = "trace Orders")
     public void traceOrders() {
         traceOrders = true;
     }
 
 
-    @CliCommand(value = "stop", help = "stops the client")
+    @ShellMethod(key = "stop", value = "stops the client")
     public void stop() {
         client.stop();
     }
 
-    @CliCommand(value = "start", help = "starts the client")
+    @ShellMethod(key = "start", value = "starts the client")
     public void start() throws ConnectionException, StatusException, InvalidCredentialException {
         client.start();
     }
 
-    @CliCommand(value = "disconnect", help = "socket level disconnect - this will auto-reconnect")
+    @ShellMethod(key = "disconnect", value = "socket level disconnect - this will auto-reconnect")
     public void disconnect() {
         client.disconnect();
     }
 
 
-    @CliCommand(value = "traceMessages", help = "trace Messages (Markets and Orders)")
-    public void traceMessages(@CliOption(key = {""}, mandatory = false, help = "truncate", unspecifiedDefaultValue = "200", specifiedDefaultValue = "200") int truncate) {
+    @ShellMethod(key = "traceMessages", value = "trace Messages (Markets and Orders)")
+    public void traceMessages(@ShellOption(help = "truncate", defaultValue = "200") int truncate) {
         client.setTraceChangeTruncation(truncate);
     }
 
     private void printMarket(MarketSnap market) {
-        market.getMarketRunners().sort((mr1, mr2) -> Integer.compare(mr1.getDefinition().getSortPriority(), mr2.getDefinition().getSortPriority()));
+        market.getMarketRunners().sort(Comparator.comparingInt(mr -> mr.getDefinition().getSortPriority()));
 
         List<MarketDetailsRow> marketDetails = new ArrayList<>();
 
