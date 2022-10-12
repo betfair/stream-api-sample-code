@@ -7,7 +7,7 @@
     <groupId>com.betfair.esa</groupId>
     <artifactId>esa-java-client</artifactId>
     <packaging>pom</packaging>
-    <version>1.0-SNAPSHOT</version>
+    <version>2.0.0</version>
 
     <modules>
         <module>swagger</module>
@@ -20,6 +20,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
+                <version>${maven.compiler.plugin.version}</version>
             </plugin>
         </plugins>
         <pluginManagement>
@@ -27,76 +28,86 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-compiler-plugin</artifactId>
-                    <configuration>
-                        <source>1.8</source>
-                        <target>1.8</target>
-                    </configuration>
+                    <version>${maven.compiler.plugin.version}</version>
                 </plugin>
             </plugins>
         </pluginManagement>
     </build>
+
     <properties>
-        <swagger-annotations-version>1.5.8</swagger-annotations-version>
-        <jackson-version>2.5.4</jackson-version>
-        <slf4j-version>1.7.9</slf4j-version>
+        <swagger.annotations.version>2.2.3</swagger.annotations.version>
+        <jackson.version>2.13.4</jackson.version>
+        <awaitility.version>1.7.0</awaitility.version>
+        <slf4j.version>2.0.3</slf4j.version>
+        <maven.compiler.plugin.version>3.10.1</maven.compiler.plugin.version>
         <commons.lang.version>2.4</commons.lang.version>
+        <maven.compiler.release>17</maven.compiler.release>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <spring.shell.version>2.1.2</spring.shell.version>
+        <jersey.client.version>1.19.4</jersey.client.version>
+        <testng.version>7.6.1</testng.version>
     </properties>
 
     <dependencyManagement>
         <dependencies>
             <dependency>
                 <groupId>org.springframework.shell</groupId>
-                <artifactId>spring-shell</artifactId>
-                <version>1.2.0.RELEASE</version>
+                <artifactId>spring-shell-starter</artifactId>
+                <version>${spring.shell.version}</version>
             </dependency>
             <dependency>
-                <groupId>io.swagger</groupId>
+                <groupId>io.swagger.core.v3</groupId>
                 <artifactId>swagger-annotations</artifactId>
-                <version>${swagger-annotations-version}</version>
+                <version>${swagger.annotations.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.fasterxml.jackson.core</groupId>
                 <artifactId>jackson-annotations</artifactId>
-                <version>${jackson-version}</version>
+                <version>${jackson.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.fasterxml.jackson.core</groupId>
                 <artifactId>jackson-databind</artifactId>
-                <version>${jackson-version}</version>
+                <version>${jackson.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.fasterxml.jackson.datatype</groupId>
+                <artifactId>jackson-datatype-jsr310</artifactId>
+                <version>${jackson.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.sun.jersey</groupId>
                 <artifactId>jersey-client</artifactId>
-                <version>1.18.1</version>
+                <version>${jersey.client.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.slf4j</groupId>
                 <artifactId>slf4j-api</artifactId>
-                <version>${slf4j-version}</version>
+                <version>${slf4j.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.slf4j</groupId>
                 <artifactId>slf4j-ext</artifactId>
-                <version>${slf4j-version}</version>
+                <version>${slf4j.version}</version>
             </dependency>
 
             <!-- Test scope -->
             <dependency>
                 <groupId>com.jayway.awaitility</groupId>
                 <artifactId>awaitility</artifactId>
-                <version>1.6.3</version>
+                <version>${awaitility.version}</version>
                 <scope>test</scope>
             </dependency>
             <dependency>
                 <groupId>org.slf4j</groupId>
                 <artifactId>slf4j-simple</artifactId>
-                <version>${slf4j-version}</version>
+                <version>${slf4j.version}</version>
                 <scope>test</scope>
             </dependency>
             <dependency>
                 <groupId>org.testng</groupId>
                 <artifactId>testng</artifactId>
-                <version>6.8.21</version>
+                <version>${testng.version}</version>
                 <scope>test</scope>
             </dependency>
         </dependencies>

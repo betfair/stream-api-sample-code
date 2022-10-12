@@ -25,7 +25,7 @@ public class OrderMarketRunner {
     }
 
     public void onOrderRunnerChange(OrderRunnerChange orderRunnerChange) {
-        boolean isImage = Boolean.TRUE.equals(orderRunnerChange.getFullImage());
+        boolean isImage = Boolean.TRUE.equals(orderRunnerChange.isFullImage());
 
         if (isImage) {
             unmatchedOrders.clear();

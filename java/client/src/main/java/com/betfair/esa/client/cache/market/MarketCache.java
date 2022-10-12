@@ -68,7 +68,7 @@ public class MarketCache {
     }
 
     private Market onMarketChange(MarketChange marketChange) {
-        if (Boolean.TRUE.equals(marketChange.getCon())) {
+        if (Boolean.TRUE.equals(marketChange.isCon())) {
             conflatedCount++;
         }
         Market market = markets.computeIfAbsent(marketChange.getId(), k -> new Market(this, k));

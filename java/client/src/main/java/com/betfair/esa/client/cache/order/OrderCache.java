@@ -39,7 +39,7 @@ public class OrderCache {
                                                                     : new ArrayList<>(changeMessage.getItems().size());
 
             for (OrderMarketChange change : changeMessage.getItems()) {
-                boolean isImage = Boolean.TRUE.equals(change.getFullImage());
+                boolean isImage = Boolean.TRUE.equals(change.isFullImage());
                 if (isImage) {
                     // Clear market from cache if it is being re-imaged
                     markets.remove(change.getId());

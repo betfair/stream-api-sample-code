@@ -1,0 +1,7 @@
+=======================================
+*                                     *
+*    Exchange Streaming Client        *
+*                                     *
+=======================================
+Version: 2.0.0
+Welcome to ESA. For assistance type 'help' then hit ENTER
