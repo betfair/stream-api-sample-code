@@ -1,0 +1,9 @@
+version: "3.9"
+
+services:
+  esaconsole:
+    build:
+      context: .
+      dockerfile: java/Dockerfile
+    tty: true
+    stdin_open: true
