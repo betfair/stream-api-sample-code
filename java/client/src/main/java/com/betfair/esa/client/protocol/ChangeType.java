@@ -1,24 +1,16 @@
 package com.betfair.esa.client.protocol;
 
 /**
- * Common change type (as change type is local to market / order in swagger).
- * Created by mulveyj on 07/07/2016.
+ * Common change type (as change type is local to market / order in swagger). Created by mulveyj on
+ * 07/07/2016.
  */
 public enum ChangeType {
-    /**
-     * Update
-     */
+    /** Update */
     UPDATE,
-    /**
-     * Initial subscription image
-     **/
+    /** Initial subscription image */
     SUB_IMAGE,
-    /**
-     * Resubscription delta image
-     */
+    /** Resubscription delta image */
     RESUB_DELTA,
-    /**
-     * Heartbeat
-     */
+    /** Heartbeat */
     HEARTBEAT,
 }

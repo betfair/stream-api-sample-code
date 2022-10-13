@@ -2,7 +2,6 @@ package com.betfair.esa.client.cache.market;
 
 import com.betfair.esa.client.cache.util.LevelPriceSize;
 import com.betfair.esa.client.cache.util.PriceSize;
-
 import java.util.Collections;
 import java.util.List;
 
@@ -59,7 +58,6 @@ public class MarketRunnerPrices {
         return bdatl;
     }
 
-
     public double getLtp() {
         return ltp;
     }
@@ -76,23 +74,35 @@ public class MarketRunnerPrices {
         return tv;
     }
 
-
     @Override
     public String toString() {
-        return "MarketRunnerPrices{" +
-                "atl=" + atl +
-                ", atb=" + atb +
-                ", trd=" + trd +
-                ", spb=" + spb +
-                ", spl=" + spl +
-                ", batb=" + batb +
-                ", batl=" + batl +
-                ", bdatb=" + bdatb +
-                ", bdatl=" + bdatl +
-                ", ltp=" + ltp +
-                ", spn=" + spn +
-                ", spf=" + spf +
-                ", tv=" + tv +
-                '}';
+        return "MarketRunnerPrices{"
+                + "atl="
+                + atl
+                + ", atb="
+                + atb
+                + ", trd="
+                + trd
+                + ", spb="
+                + spb
+                + ", spl="
+                + spl
+                + ", batb="
+                + batb
+                + ", batl="
+                + batl
+                + ", bdatb="
+                + bdatb
+                + ", bdatl="
+                + bdatl
+                + ", ltp="
+                + ltp
+                + ", spn="
+                + spn
+                + ", spf="
+                + spf
+                + ", tv="
+                + tv
+                + '}';
     }
 }

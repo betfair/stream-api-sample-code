@@ -1,7 +1,6 @@
 package com.betfair.esa.client.cache.util;
 
 import com.betfair.esa.swagger.model.Order;
-
 import java.util.List;
 import java.util.Map;
 
@@ -41,13 +40,16 @@ public class OrderMarketRunnerSnap {
 
         StringBuilder uoOrdersSb = new StringBuilder(" ");
         for (Order order : unmatchedOrders.values()) {
-            uoOrdersSb.append(order). append(" ");
+            uoOrdersSb.append(order).append(" ");
         }
 
-        return "OrderMarketRunnerSnap{" +
-                "layMatches=" + layMatches +
-                ", backMatches=" + backMatches +
-                ", unmatchedOrders=" + uoOrdersSb.toString() +
-                '}';
+        return "OrderMarketRunnerSnap{"
+                + "layMatches="
+                + layMatches
+                + ", backMatches="
+                + backMatches
+                + ", unmatchedOrders="
+                + uoOrdersSb
+                + '}';
     }
 }

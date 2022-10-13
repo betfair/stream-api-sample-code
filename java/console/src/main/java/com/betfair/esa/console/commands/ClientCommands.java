@@ -1,5 +1,7 @@
 package com.betfair.esa.console.commands;
 
+import static org.springframework.shell.standard.ShellOption.NULL;
+
 import com.betfair.esa.client.Client;
 import com.betfair.esa.client.ClientCache;
 import com.betfair.esa.client.auth.AppKeyAndSessionProvider;
@@ -11,6 +13,12 @@ import com.betfair.esa.client.cache.util.LevelPriceSize;
 import com.betfair.esa.client.cache.util.OrderMarketSnap;
 import com.betfair.esa.client.protocol.ConnectionException;
 import com.betfair.esa.client.protocol.StatusException;
+import java.io.*;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Properties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Configuration;
@@ -21,19 +29,10 @@ import org.springframework.shell.table.BeanListTableModel;
 import org.springframework.shell.table.BorderStyle;
 import org.springframework.shell.table.Table;
 
-import java.io.*;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Properties;
-
-import static org.springframework.shell.standard.ShellOption.NULL;
-
-
 @ShellComponent
 @Configuration
-public class ClientCommands implements MarketCache.MarketChangeListener, OrderCache.OrderMarketChangeListener {
+public class ClientCommands
+        implements MarketCache.MarketChangeListener, OrderCache.OrderMarketChangeListener {
 
     public static final String CONFIG_PROPERTIES = "config.properties";
     public static final String HOST_NAME = "host";
@@ -77,14 +76,12 @@ public class ClientCommands implements MarketCache.MarketChangeListener, OrderCa
         return clientCache;
     }
 
-
     @Override
     public void marketChange(MarketCache.MarketChangeEvent marketChangeEvent) {
         if (traceMarkets) {
             printMarket(marketChangeEvent.getSnap());
         }
     }
-
 
     @Override
     public void orderChange(OrderCache.OrderMarketChangeEvent orderChangeEvent) {
@@ -93,39 +90,55 @@ public class ClientCommands implements MarketCache.MarketChangeListener, OrderCa
         }
     }
 
-
     @ShellMethod(key = "saveLogin", value = "Save Login - (not encrypted)")
-    public void saveLogin(@ShellOption(value = {"--host"}, defaultValue = "identitysso.betfair.com", help = "sso host") String host,
-                          @ShellOption(value = {"--appKey"}, defaultValue = NULL, help = "app key") String appKey,
-                          @ShellOption(value = {"--userName"}, defaultValue = NULL, help = "user name") String userName,
-                          @ShellOption(value = {"--password"}, defaultValue = NULL, help = "password") String password
-    ) throws IOException, InvalidCredentialException {
+    public void saveLogin(
+            @ShellOption(
+                            value = {"--host"},
+                            defaultValue = "identitysso.betfair.com",
+                            help = "sso host")
+                    String host,
+            @ShellOption(
+                            value = {"--appKey"},
+                            defaultValue = NULL,
+                            help = "app key")
+                    String appKey,
+            @ShellOption(
+                            value = {"--userName"},
+                            defaultValue = NULL,
+                            help = "user name")
+                    String userName,
+            @ShellOption(
+                            value = {"--password"},
+                            defaultValue = NULL,
+                            help = "password")
+                    String password)
+            throws IOException, InvalidCredentialException {
         properties.setProperty(APP_KEY, appKey);
         properties.setProperty(USER_NAME, userName);
         properties.setProperty(PASSWORD, password);
         properties.setProperty(HOST_NAME, host);
 
-        //set the login and verify before saving
+        // set the login and verify before saving
         newSessionProvider(host, appKey, userName, password);
-        //test it
+        // test it
         sessionProvider.getOrCreateNewSession();
 
-        //save it
+        // save it
         properties.store(new FileOutputStream(CONFIG_PROPERTIES), "");
-        System.out.println("saveLogin - saved credentials (un-encrypted) to: "+CONFIG_PROPERTIES);
+        System.out.println("saveLogin - saved credentials (un-encrypted) to: " + CONFIG_PROPERTIES);
     }
 
-
     @ShellMethod("subscribes to market(s) (comma separated with no spaces)")
-    public void market(@ShellOption(defaultValue = NULL, help = "marketId") String... marketId) throws ConnectionException, StatusException, InvalidCredentialException {
+    public void market(@ShellOption(defaultValue = NULL, help = "marketId") String... marketId)
+            throws ConnectionException, StatusException, InvalidCredentialException {
         getClientCache().subscribeMarkets(marketId);
     }
 
     @ShellMethod(key = "marketFirehose", value = "subscribes to all markets")
-    public void marketFirehose() throws ConnectionException, StatusException, InvalidCredentialException {
+    public void marketFirehose()
+            throws ConnectionException, StatusException, InvalidCredentialException {
         getClientCache().subscribeMarkets();
     }
-
 
     @ShellMethod(key = "orders", value = "subscribes to orders")
     public void orders() throws ConnectionException, StatusException, InvalidCredentialException {
@@ -156,7 +169,6 @@ public class ClientCommands implements MarketCache.MarketChangeListener, OrderCa
         traceOrders = true;
     }
 
-
     @ShellMethod(key = "stop", value = "stops the client")
     public void stop() {
         client.stop();
@@ -172,48 +184,66 @@ public class ClientCommands implements MarketCache.MarketChangeListener, OrderCa
         client.disconnect();
     }
 
-
     @ShellMethod(key = "traceMessages", value = "trace Messages (Markets and Orders)")
     public void traceMessages(@ShellOption(help = "truncate", defaultValue = "200") int truncate) {
         client.setTraceChangeTruncation(truncate);
     }
 
     private void printMarket(MarketSnap market) {
-        market.getMarketRunners().sort(Comparator.comparingInt(mr -> mr.getDefinition().getSortPriority()));
+        market.getMarketRunners()
+                .sort(Comparator.comparingInt(mr -> mr.getDefinition().getSortPriority()));
 
         List<MarketDetailsRow> marketDetails = new ArrayList<>();
 
         for (MarketRunnerSnap runner : market.getMarketRunners()) {
             MarketRunnerPrices snap = runner.getPrices();
-            MarketDetailsRow marketDetail = new MarketDetailsRow(market.getMarketId(),
-                    runner.getRunnerId().getSelectionId(),
-                    getLevel(snap.getBdatb(), 0).getPrice(),
-                    getLevel(snap.getBdatb(), 0).getSize(),
-                    getLevel(snap.getBdatl(), 0).getPrice(),
-                    getLevel(snap.getBdatl(), 0).getSize());
+            MarketDetailsRow marketDetail =
+                    new MarketDetailsRow(
+                            market.getMarketId(),
+                            runner.getRunnerId().selectionId(),
+                            getLevel(snap.getBdatb(), 0).getPrice(),
+                            getLevel(snap.getBdatb(), 0).getSize(),
+                            getLevel(snap.getBdatl(), 0).getPrice(),
+                            getLevel(snap.getBdatl(), 0).getSize());
             marketDetails.add(marketDetail);
         }
 
-        BeanListTableModel model = new BeanListTableModel(marketDetails, createHeader("marketId", "selectionId", "batbPrice", "batbSize", "batlPrice", "batlSize"));
+        BeanListTableModel model =
+                new BeanListTableModel(
+                        marketDetails,
+                        createHeader(
+                                "marketId",
+                                "selectionId",
+                                "batbPrice",
+                                "batbSize",
+                                "batlPrice",
+                                "batlSize"));
         renderTable(model);
     }
-
 
     private void printOrderMarket(OrderMarketSnap orderMarketSnap) {
         System.out.println("Orders  (marketid=" + orderMarketSnap.getMarketId() + ")");
 
         List<com.betfair.esa.swagger.model.Order> orders = new ArrayList<>();
 
-        orderMarketSnap.getOrderMarketRunners().forEach(orderMarketRunnerSnap -> {
-            orders.addAll(orderMarketRunnerSnap.getUnmatchedOrders().values());
-        });
+        orderMarketSnap
+                .getOrderMarketRunners()
+                .forEach(
+                        orderMarketRunnerSnap ->
+                                orders.addAll(orderMarketRunnerSnap.getUnmatchedOrders().values()));
 
-        BeanListTableModel model = new BeanListTableModel(orders, createHeader( "id","side", "pt","ot", "status","sv","p","sc","rc","s","pd","rac","md", "cd", "ld", "sl","avp","sm","bsp","sr"));
+        BeanListTableModel model =
+                new BeanListTableModel(
+                        orders,
+                        createHeader(
+                                "id", "side", "pt", "ot", "status", "sv", "p", "sc", "rc", "s",
+                                "pd", "rac", "md", "cd", "ld", "sl", "avp", "sm", "bsp", "sr"));
         renderTable(model);
     }
 
     private void renderTable(BeanListTableModel model) {
-        org.springframework.shell.table.TableBuilder tableBuilder = new org.springframework.shell.table.TableBuilder(model);
+        org.springframework.shell.table.TableBuilder tableBuilder =
+                new org.springframework.shell.table.TableBuilder(model);
         tableBuilder.addHeaderAndVerticalsBorders(BorderStyle.oldschool);
         Table table = tableBuilder.build();
         final String rendered = table.render(1000);
@@ -238,7 +268,6 @@ public class ClientCommands implements MarketCache.MarketChangeListener, OrderCa
             File configFile = new File(CONFIG_PROPERTIES);
             if (!configFile.exists()) {
                 configFile.createNewFile();
-
             }
             input = new FileInputStream(CONFIG_PROPERTIES);
             if (input != null) {
@@ -256,13 +285,12 @@ public class ClientCommands implements MarketCache.MarketChangeListener, OrderCa
                 }
             }
         }
-
     }
 
-    private void newSessionProvider(String ssoHost, String appKey, String userName, String password) {
+    private void newSessionProvider(
+            String ssoHost, String appKey, String userName, String password) {
         sessionProvider = new AppKeyAndSessionProvider(ssoHost, appKey, userName, password);
     }
-
 
     private String getAppKey() {
         return properties.getProperty(APP_KEY);
@@ -281,15 +309,20 @@ public class ClientCommands implements MarketCache.MarketChangeListener, OrderCa
     }
 
     class MarketDetailsRow {
-        private String marketId;
-        private long selectionId;
-        private double batbPrice;
-        private double batbSize;
-        private double batlPrice;
-        private double batlSize;
+        private final String marketId;
+        private final long selectionId;
+        private final double batbPrice;
+        private final double batbSize;
+        private final double batlPrice;
+        private final double batlSize;
 
-
-        public MarketDetailsRow(String marketId, long selectionId, double batbPrice, double batbSize, double batlPrice, double batlSize) {
+        public MarketDetailsRow(
+                String marketId,
+                long selectionId,
+                double batbPrice,
+                double batbSize,
+                double batlPrice,
+                double batlSize) {
             this.marketId = marketId;
             this.selectionId = selectionId;
             this.batbPrice = batbPrice;
@@ -323,5 +356,3 @@ public class ClientCommands implements MarketCache.MarketChangeListener, OrderCa
         }
     }
 }
-
-

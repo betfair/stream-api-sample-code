@@ -2,9 +2,7 @@ package com.betfair.esa.client.protocol;
 
 import java.util.EventObject;
 
-/**
- * Created by mulveyJ on 11/07/2016.
- */
+/** Created by mulveyJ on 11/07/2016. */
 public class ConnectionStatusChangeEvent extends EventObject {
     private final ConnectionStatus oldStatus;
     private final ConnectionStatus newStatus;
@@ -15,7 +13,8 @@ public class ConnectionStatusChangeEvent extends EventObject {
      * @param source The object on which the Event initially occurred.
      * @throws IllegalArgumentException if source is null.
      */
-    public ConnectionStatusChangeEvent(Object source, ConnectionStatus oldStatus, ConnectionStatus newStatus) {
+    public ConnectionStatusChangeEvent(
+            Object source, ConnectionStatus oldStatus, ConnectionStatus newStatus) {
         super(source);
         this.oldStatus = oldStatus;
         this.newStatus = newStatus;
@@ -28,5 +27,4 @@ public class ConnectionStatusChangeEvent extends EventObject {
     public ConnectionStatus getNewStatus() {
         return newStatus;
     }
-
 }

@@ -13,11 +13,9 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
         property = "op",
         visible = true)
 @JsonSubTypes({
-        @JsonSubTypes.Type(value = ConnectionMessage.class, name = "connection"),
-        @JsonSubTypes.Type(value = StatusMessage.class, name = "status"),
-        @JsonSubTypes.Type(value = MarketChangeMessage.class, name = "mcm"),
-        @JsonSubTypes.Type(value = OrderChangeMessage.class, name = "ocm"),
+    @JsonSubTypes.Type(value = ConnectionMessage.class, name = "connection"),
+    @JsonSubTypes.Type(value = StatusMessage.class, name = "status"),
+    @JsonSubTypes.Type(value = MarketChangeMessage.class, name = "mcm"),
+    @JsonSubTypes.Type(value = OrderChangeMessage.class, name = "ocm"),
 })
-interface MixInResponseMessage {
-
-}
+interface MixInResponseMessage {}

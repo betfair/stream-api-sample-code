@@ -3,7 +3,12 @@ package com.betfair.esa.client;
 import com.betfair.esa.client.auth.InvalidCredentialException;
 import com.betfair.esa.client.cache.market.MarketCache;
 import com.betfair.esa.client.cache.order.OrderCache;
-import com.betfair.esa.client.protocol.*;
+import com.betfair.esa.client.protocol.ChangeMessage;
+import com.betfair.esa.client.protocol.ChangeMessageHandler;
+import com.betfair.esa.client.protocol.ConnectionException;
+import com.betfair.esa.client.protocol.ConnectionStatus;
+import com.betfair.esa.client.protocol.ConnectionStatusListener;
+import com.betfair.esa.client.protocol.StatusException;
 import com.betfair.esa.swagger.model.MarketChange;
 import com.betfair.esa.swagger.model.MarketDataFilter;
 import com.betfair.esa.swagger.model.MarketFilter;
@@ -11,15 +16,9 @@ import com.betfair.esa.swagger.model.MarketSubscriptionMessage;
 import com.betfair.esa.swagger.model.OrderMarketChange;
 import com.betfair.esa.swagger.model.OrderSubscriptionMessage;
 import com.betfair.esa.swagger.model.StatusMessage;
-
-import java.io.IOException;
 import java.util.Arrays;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.TimeoutException;
 
-/**
- * Created by mulveyj on 07/07/2016.
- */
+/** Created by mulveyj on 07/07/2016. */
 public class ClientCache implements ChangeMessageHandler {
     private final MarketCache marketCache = new MarketCache();
     private final OrderCache orderCache = new OrderCache();
@@ -78,34 +77,32 @@ public class ClientCache implements ChangeMessageHandler {
         return orderCache;
     }
 
-    /**
-    * Subscribe to all orders. (starting the client if needed).
-    */
-    public void subscribeOrders() throws InvalidCredentialException, StatusException, ConnectionException {
+    /** Subscribe to all orders. (starting the client if needed). */
+    public void subscribeOrders()
+            throws InvalidCredentialException, StatusException, ConnectionException {
         subscribeOrders(new OrderSubscriptionMessage());
     }
 
-    /**
-    * Explict order subscription. (starting the client if needed).
-    */
-    public void subscribeOrders(OrderSubscriptionMessage subscription) throws InvalidCredentialException, StatusException, ConnectionException {
+    /** Explict order subscription. (starting the client if needed). */
+    public void subscribeOrders(OrderSubscriptionMessage subscription)
+            throws InvalidCredentialException, StatusException, ConnectionException {
         client.start();
         client.orderSubscription(subscription);
     }
 
-    /**
-    * Subscribe to the specified market ids. (starting the client if needed).
-    */
-    public void subscribeMarkets(String... markets) throws InvalidCredentialException, StatusException, ConnectionException {
+    /** Subscribe to the specified market ids. (starting the client if needed). */
+    public void subscribeMarkets(String... markets)
+            throws InvalidCredentialException, StatusException, ConnectionException {
         MarketFilter marketFilter = new MarketFilter();
         marketFilter.setMarketIds(Arrays.asList(markets));
         subscribeMarkets(marketFilter);
     }
 
     /**
-    * Subscribe to the specified markets (matching your filter). (starting the client if needed).
-    */
-    public void subscribeMarkets(MarketFilter marketFilter) throws InvalidCredentialException, StatusException, ConnectionException {
+     * Subscribe to the specified markets (matching your filter). (starting the client if needed).
+     */
+    public void subscribeMarkets(MarketFilter marketFilter)
+            throws InvalidCredentialException, StatusException, ConnectionException {
         MarketSubscriptionMessage marketSubscriptionMessage = new MarketSubscriptionMessage();
         marketSubscriptionMessage.setMarketFilter(marketFilter);
         subscribeMarkets(marketSubscriptionMessage);
@@ -115,7 +112,8 @@ public class ClientCache implements ChangeMessageHandler {
     /// Explicit order subscripion. (starting the client if needed).
     /// </summary>
     /// <param name="subscription"></param>
-    public void subscribeMarkets(MarketSubscriptionMessage subscription) throws InvalidCredentialException, StatusException, ConnectionException {
+    public void subscribeMarkets(MarketSubscriptionMessage subscription)
+            throws InvalidCredentialException, StatusException, ConnectionException {
         client.start();
         client.marketSubscription(subscription);
     }
@@ -131,7 +129,5 @@ public class ClientCache implements ChangeMessageHandler {
     }
 
     @Override
-    public void onErrorStatusNotification(StatusMessage message) {
-
-    }
+    public void onErrorStatusNotification(StatusMessage message) {}
 }

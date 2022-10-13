@@ -6,7 +6,6 @@ import com.betfair.esa.client.cache.util.OrderMarketSnap;
 import com.betfair.esa.client.cache.util.RunnerId;
 import com.betfair.esa.swagger.model.OrderMarketChange;
 import com.betfair.esa.swagger.model.OrderRunnerChange;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -53,7 +52,8 @@ public class OrderMarket {
 
         RunnerId runnerId = new RunnerId(orderRunnerChange.getId(), orderRunnerChange.getHc());
 
-        OrderMarketRunner orderMarketRunner = marketRunners.computeIfAbsent(runnerId, r -> new OrderMarketRunner(this, r));
+        OrderMarketRunner orderMarketRunner =
+                marketRunners.computeIfAbsent(runnerId, r -> new OrderMarketRunner(this, r));
 
         // update the runner
         orderMarketRunner.onOrderRunnerChange(orderRunnerChange);
@@ -78,9 +78,12 @@ public class OrderMarket {
             runnersSb.append(runner).append(" ");
         }
 
-        return "OrderMarket{" +
-                "marketRunners=" + runnersSb.toString() +
-                ", marketId='" + marketId + '\'' +
-                '}';
+        return "OrderMarket{"
+                + "marketRunners="
+                + runnersSb
+                + ", marketId='"
+                + marketId
+                + '\''
+                + '}';
     }
 }

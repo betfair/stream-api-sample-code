@@ -6,12 +6,10 @@ public class PriceSize {
     private final double price;
     private final double size;
 
-
     public PriceSize(List<Double> priceSize) {
         this.price = priceSize.get(0);
         this.size = priceSize.get(1);
     }
-
 
     public double getPrice() {
         return price;
