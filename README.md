@@ -75,6 +75,14 @@ A few tips on order subscription:
 3. Matches are price point aggregated
 4. By default markets are deleted on close
 
+## Docker
+It is possible to run the java application through a docker container, if you want to build yourself and run, execute on parent directory:
+1. docker build -t "tag" -f java/Dockerfile .
+2. docker run -it "tag"
+
+Otherwise make use of docker-compose features:
+1. Simply with a single command "docker-compose run esaconsole" will set everything up.
+
 ## Specification & Schema
 ###Specification: 
 https://github.com/betfair/stream-api-sample-code/blob/master/stream-api-specification.pdf
