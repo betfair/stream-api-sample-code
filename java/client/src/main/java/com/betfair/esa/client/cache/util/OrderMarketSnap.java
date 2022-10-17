@@ -32,10 +32,14 @@ public class OrderMarketSnap {
 
     @Override
     public String toString() {
-        return "OrderMarketSnap{" +
-                "marketId='" + marketId + '\'' +
-                ", isClosed=" + isClosed +
-                ", orderMarketRunners=" + orderMarketRunners +
-                '}';
+        return "OrderMarketSnap{"
+                + "marketId='"
+                + marketId
+                + '\''
+                + ", isClosed="
+                + isClosed
+                + ", orderMarketRunners="
+                + orderMarketRunners
+                + '}';
     }
 }

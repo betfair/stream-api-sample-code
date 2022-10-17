@@ -3,8 +3,6 @@ package com.betfair.esa.client.cache.util;
 import com.betfair.esa.client.cache.order.OrderMarket;
 import com.betfair.esa.swagger.model.Order;
 import com.betfair.esa.swagger.model.OrderRunnerChange;
-
-
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -15,9 +13,9 @@ public class OrderMarketRunner {
     private final RunnerId runnerId;
 
     private OrderMarketRunnerSnap orderMarketRunnerSnap;
-    private PriceSizeLadder layMatches = PriceSizeLadder.newLay();
-    private PriceSizeLadder backMatches = PriceSizeLadder.newBack();
-    private Map<String, Order> unmatchedOrders = new ConcurrentHashMap<>();
+    private final PriceSizeLadder layMatches = PriceSizeLadder.newLay();
+    private final PriceSizeLadder backMatches = PriceSizeLadder.newBack();
+    private final Map<String, Order> unmatchedOrders = new ConcurrentHashMap<>();
 
     public OrderMarketRunner(OrderMarket orderMarket, RunnerId runnerId) {
         this.orderMarket = orderMarket;

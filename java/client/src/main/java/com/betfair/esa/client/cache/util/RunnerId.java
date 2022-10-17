@@ -1,21 +1,8 @@
 package com.betfair.esa.client.cache.util;
 
-public class RunnerId {
-    private final long selectionId;
-    private final Double handicap;
+import java.util.Objects;
 
-    public RunnerId(long selectionId, Double handicap) {
-        this.selectionId = selectionId;
-        this.handicap = handicap;
-    }
-
-    public long getSelectionId() {
-        return selectionId;
-    }
-
-    public Double getHandicap() {
-        return handicap;
-    }
+public record RunnerId(long selectionId, Double handicap) {
 
     @Override
     public boolean equals(Object o) {
@@ -25,8 +12,7 @@ public class RunnerId {
         RunnerId runnerId = (RunnerId) o;
 
         if (selectionId != runnerId.selectionId) return false;
-        return handicap != null ? handicap.equals(runnerId.handicap) : runnerId.handicap == null;
-
+        return Objects.equals(handicap, runnerId.handicap);
     }
 
     @Override
@@ -38,9 +24,6 @@ public class RunnerId {
 
     @Override
     public String toString() {
-        return "RunnerId{" +
-                "selectionId=" + selectionId +
-                ", handicap=" + handicap +
-                '}';
+        return "RunnerId{" + "selectionId=" + selectionId + ", handicap=" + handicap + '}';
     }
 }

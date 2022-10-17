@@ -3,9 +3,6 @@ package com.betfair.esa.client.cache.order;
 import com.betfair.esa.client.cache.util.OrderMarketSnap;
 import com.betfair.esa.client.protocol.ChangeMessage;
 import com.betfair.esa.swagger.model.OrderMarketChange;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.util.ArrayList;
 import java.util.EventListener;
 import java.util.EventObject;
@@ -13,18 +10,19 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class OrderCache {
     private static final Logger LOG = LoggerFactory.getLogger(OrderCache.class);
 
     private final Map<String, OrderMarket> markets = new ConcurrentHashMap<>();
-    private CopyOnWriteArrayList<OrderMarketChangeListener> orderMarketChangeListeners = new CopyOnWriteArrayList<>();
-    private CopyOnWriteArrayList<BatchOrderMarketsChangeListener> batchOrderMarketsChangeListeners = new CopyOnWriteArrayList<>();
+    private final CopyOnWriteArrayList<OrderMarketChangeListener> orderMarketChangeListeners =
+            new CopyOnWriteArrayList<>();
+    private final CopyOnWriteArrayList<BatchOrderMarketsChangeListener>
+            batchOrderMarketsChangeListeners = new CopyOnWriteArrayList<>();
 
-    /**
-     * Wether order markets are automatically removed on close
-     * (default is true)
-     */
+    /** Wether order markets are automatically removed on close (default is true) */
     public boolean isOrderMarketRemovedOnClose = true;
 
     public void onOrderChange(ChangeMessage<OrderMarketChange> changeMessage) {
@@ -34,9 +32,10 @@ public class OrderCache {
         }
 
         if (changeMessage.getItems() != null) {
-            List<OrderMarketChangeEvent> batch = (batchOrderMarketsChangeListeners.size() == 0)
-                                                                    ? null
-                                                                    : new ArrayList<>(changeMessage.getItems().size());
+            List<OrderMarketChangeEvent> batch =
+                    (batchOrderMarketsChangeListeners.size() == 0)
+                            ? null
+                            : new ArrayList<>(changeMessage.getItems().size());
 
             for (OrderMarketChange change : changeMessage.getItems()) {
                 boolean isImage = Boolean.TRUE.equals(change.isFullImage());
@@ -53,7 +52,8 @@ public class OrderCache {
                 }
 
                 if (batch != null || orderMarketChangeListeners.size() != 0) {
-                    OrderMarketChangeEvent orderMarketChangeEvent = new OrderMarketChangeEvent(this);
+                    OrderMarketChangeEvent orderMarketChangeEvent =
+                            new OrderMarketChangeEvent(this);
                     orderMarketChangeEvent.setChange(change);
                     orderMarketChangeEvent.setOrderMarket(orderMarket);
 
@@ -73,9 +73,11 @@ public class OrderCache {
         }
     }
 
-    private void dispatchBatchMarketOrderChanged(BatchOrderMarketsChangeEvent batchOrderMarketsChangeEvent) {
+    private void dispatchBatchMarketOrderChanged(
+            BatchOrderMarketsChangeEvent batchOrderMarketsChangeEvent) {
         try {
-            batchOrderMarketsChangeListeners.forEach(l -> l.batchOrderMarketChange(batchOrderMarketsChangeEvent));
+            batchOrderMarketsChangeListeners.forEach(
+                    l -> l.batchOrderMarketChange(batchOrderMarketsChangeEvent));
         } catch (Exception e) {
             LOG.error("Exception from batch event listener", e);
         }
@@ -90,8 +92,10 @@ public class OrderCache {
     }
 
     private OrderMarket onOrderMarketChange(OrderMarketChange orderMarketChange) {
-        OrderMarket orderMarket = markets.computeIfAbsent(orderMarketChange.getId(),
-                                                                key -> new OrderMarket(this, orderMarketChange.getId()));
+        OrderMarket orderMarket =
+                markets.computeIfAbsent(
+                        orderMarketChange.getId(),
+                        key -> new OrderMarket(this, orderMarketChange.getId()));
 
         orderMarket.onOrderMarketChange(orderMarketChange);
         return orderMarket;
@@ -171,11 +175,11 @@ public class OrderCache {
         orderMarketChangeListeners.add(listener);
     }
 
-    public void addBatchOrderMarketChangeListener(BatchOrderMarketsChangeListener listener){
+    public void addBatchOrderMarketChangeListener(BatchOrderMarketsChangeListener listener) {
         batchOrderMarketsChangeListeners.add(listener);
     }
 
-    public void removeBatchMarketChangeListener(BatchOrderMarketsChangeListener listener){
+    public void removeBatchMarketChangeListener(BatchOrderMarketsChangeListener listener) {
         batchOrderMarketsChangeListeners.remove(listener);
     }
 

@@ -2,9 +2,7 @@ package com.betfair.esa.client.protocol;
 
 import java.util.List;
 
-/**
- * Created by mulveyj on 07/07/2016.
- */
+/** Created by mulveyj on 07/07/2016. */
 public class ChangeMessage<T> {
     private long arrivalTime;
     private long publishTime;
@@ -23,29 +21,32 @@ public class ChangeMessage<T> {
 
     /**
      * Start of new subscription (not resubscription)
+     *
      * @return
      */
-    public boolean isStartOfNewSubscription(){
-        return changeType == ChangeType.SUB_IMAGE &&
-                (segmentType == SegmentType.NONE || segmentType == SegmentType.SEG_START);
+    public boolean isStartOfNewSubscription() {
+        return changeType == ChangeType.SUB_IMAGE
+                && (segmentType == SegmentType.NONE || segmentType == SegmentType.SEG_START);
     }
 
     /**
      * Start of subscription / resubscription
+     *
      * @return
      */
-    public boolean isStartOfRecovery(){
-        return (changeType == ChangeType.SUB_IMAGE || changeType == ChangeType.RESUB_DELTA) &&
-                (segmentType == SegmentType.NONE || segmentType == SegmentType.SEG_START);
+    public boolean isStartOfRecovery() {
+        return (changeType == ChangeType.SUB_IMAGE || changeType == ChangeType.RESUB_DELTA)
+                && (segmentType == SegmentType.NONE || segmentType == SegmentType.SEG_START);
     }
 
     /**
      * End of subscription / resubscription
+     *
      * @return
      */
-    public boolean isEndOfRecovery(){
-        return (changeType == ChangeType.SUB_IMAGE || changeType == ChangeType.RESUB_DELTA) &&
-                (segmentType == SegmentType.NONE || segmentType == SegmentType.SEG_END);
+    public boolean isEndOfRecovery() {
+        return (changeType == ChangeType.SUB_IMAGE || changeType == ChangeType.RESUB_DELTA)
+                && (segmentType == SegmentType.NONE || segmentType == SegmentType.SEG_END);
     }
 
     public ChangeType getChangeType() {

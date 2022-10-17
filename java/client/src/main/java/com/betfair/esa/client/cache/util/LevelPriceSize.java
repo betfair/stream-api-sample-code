@@ -33,7 +33,6 @@ public class LevelPriceSize {
 
     @Override
     public String toString() {
-        return level +
-                ":" + size + "@" + price;
+        return level + ":" + size + "@" + price;
     }
 }

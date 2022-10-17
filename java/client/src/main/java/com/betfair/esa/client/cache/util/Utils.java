@@ -1,8 +1,6 @@
 package com.betfair.esa.client.cache.util;
 
-/**
- * Utils class
- */
+/** Utils class */
 public class Utils {
 
     public static double selectPrice(boolean isImage, double currentPrice, Double newPrice) {
@@ -12,5 +10,4 @@ public class Utils {
             return newPrice == null ? currentPrice : newPrice;
         }
     }
-
 }
