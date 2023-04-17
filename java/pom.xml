@@ -86,7 +86,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <spring.shell.version>2.1.2</spring.shell.version>
         <jersey.client.version>1.19.4</jersey.client.version>
-        <testng.version>7.6.1</testng.version>
+        <testng.version>7.7.0</testng.version>
         <spotless.version>2.27.2</spotless.version>
     </properties>
 
