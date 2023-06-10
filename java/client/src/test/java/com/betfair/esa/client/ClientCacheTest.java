@@ -41,7 +41,7 @@ public class ClientCacheTest extends BaseTest {
         //        cache.MarketCache.MarketChanged +=
         //                (sender, arg) => Console.WriteLine("Market:" + arg.Snap);
         // Subscribe to markets (use a valid market id or filter)
-        cache.subscribeMarkets("1.199757877");
+        cache.subscribeMarkets("1.214366174");
 
         Thread.sleep(5000); // pause for a bit
     }

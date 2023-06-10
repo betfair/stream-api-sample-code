@@ -4,15 +4,15 @@ import java.time.Clock;
 import java.time.Instant;
 
 /** Created by mulveyj on 07/07/2016. */
-public class AppKeyAndSession {
+public class AppKeyAndToken {
 
     private final String appKey;
-    private final String session;
+    private final String token;
     private Instant createTime;
 
-    public AppKeyAndSession(String appKey, String session) {
+    public AppKeyAndToken(String appKey, String token) {
         this.appKey = appKey;
-        this.session = session;
+        this.token = token;
         createTime = Instant.now(Clock.systemUTC());
     }
 
@@ -24,8 +24,8 @@ public class AppKeyAndSession {
         this.createTime = createTime;
     }
 
-    public String getSession() {
-        return session;
+    public String getToken() {
+        return token;
     }
 
     public String getAppKey() {

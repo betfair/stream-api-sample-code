@@ -26,7 +26,7 @@ public class AppKeyAndSessionProvider {
     private final String password;
     private final String username;
 
-    private AppKeyAndSession session;
+    private AppKeyAndToken session;
 
     public static final String SSO_HOST_COM = "identitysso.betfair.com";
     public static final String SSO_HOST_IT = "identitysso.betfair.it";
@@ -51,7 +51,7 @@ public class AppKeyAndSessionProvider {
      * @throws IOException Thrown if authentication call fails
      * @throws InvalidCredentialException Thrown if authentication response is fail
      */
-    public AppKeyAndSession getOrCreateNewSession() throws IOException, InvalidCredentialException {
+    public AppKeyAndToken getOrCreateNewSession() throws IOException, InvalidCredentialException {
         if (session != null) {
             // have a cached session - is it expired
             if ((session.getCreateTime().plus(sessionExpireTime))
@@ -95,7 +95,7 @@ public class AppKeyAndSessionProvider {
 
         // got a response - decode
         if (sessionDetails != null && "SUCCESS".equals(sessionDetails.status)) {
-            session = new AppKeyAndSession(appkey, sessionDetails.token);
+            session = new AppKeyAndToken(appkey, sessionDetails.token);
         } else {
             throw new InvalidCredentialException(
                     "SSO Authentication - response is fail: " + sessionDetails.error);
