@@ -644,6 +644,10 @@
           "type": "string",
           "format": "date-time"
         },
+        "name": {
+          "type": "string",
+          "description": "The name of the runner"
+        },
         "id": {
           "type": "integer",
           "description": "Selection Id - the id of the runner (selection)",
