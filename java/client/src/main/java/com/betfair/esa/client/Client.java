@@ -1,6 +1,6 @@
 package com.betfair.esa.client;
 
-import com.betfair.esa.client.auth.AppKeyAndSession;
+import com.betfair.esa.client.auth.AppKeyAndToken;
 import com.betfair.esa.client.auth.AppKeyAndSessionProvider;
 import com.betfair.esa.client.auth.InvalidCredentialException;
 import com.betfair.esa.client.protocol.ChangeMessageHandler;
@@ -226,16 +226,16 @@ public class Client {
     private void authenticate()
             throws InvalidCredentialException, ConnectionException, StatusException {
         // get a session
-        AppKeyAndSession appKeyAndSession = null;
+        AppKeyAndToken appKeyAndToken = null;
         try {
-            appKeyAndSession = sessionProvider.getOrCreateNewSession();
+            appKeyAndToken = sessionProvider.getOrCreateNewSession();
         } catch (IOException e) {
             throw new ConnectionException("Authentication provider failed", e);
         }
         try {
             AuthenticationMessage authenticationMessage = new AuthenticationMessage();
-            authenticationMessage.setAppKey(appKeyAndSession.getAppKey());
-            authenticationMessage.setSession(appKeyAndSession.getSession());
+            authenticationMessage.setAppKey(appKeyAndToken.getAppKey());
+            authenticationMessage.setSession(appKeyAndToken.getToken());
             waitFor(processor.authenticate(authenticationMessage));
         } catch (StatusException statusException) {
             // force expire if session is invalid
@@ -289,7 +289,7 @@ public class Client {
             disconnect();
 
             // pre-fetch the session (as auth will follow)
-            AppKeyAndSession appKeyAndSession = sessionProvider.getOrCreateNewSession();
+            AppKeyAndToken appKeyAndToken = sessionProvider.getOrCreateNewSession();
 
             // create socket
             LOG.info("ESAClient: Opening socket to: {}:{}", hostName, port);
