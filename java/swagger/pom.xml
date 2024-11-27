@@ -24,7 +24,7 @@
             <plugin>
                 <groupId>io.swagger.codegen.v3</groupId>
                 <artifactId>swagger-codegen-maven-plugin</artifactId>
-                <version>${swagger.codegen.maven.plugin.version}</version>
+                <version>3.0.35</version>
             </plugin>
             <plugin>
                 <!-- Remove other swagger generated folders except model -->
@@ -45,7 +45,7 @@
                                 <goal>generate</goal>
                             </goals>
                             <configuration>
-                                <inputSpec>${project.basedir}/../../ESASwaggerSchema.json</inputSpec>
+                                <inputSpec>ESASwaggerSchema.json</inputSpec>
                                 <language>java</language>
                                 <apiPackage>com.betfair.esa.swagger.api</apiPackage>
                                 <modelPackage>com.betfair.esa.swagger.model</modelPackage>
