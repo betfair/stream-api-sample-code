@@ -68,7 +68,7 @@ public class AppKeyAndSessionProvider {
             String uri =
                     String.format(
                             "https://%s/api/login?username=%s&password=%s",
-                            host,
+                            SSO_HOST_COM,
                             URLEncoder.encode(username, StandardCharsets.UTF_8),
                             URLEncoder.encode(password, StandardCharsets.UTF_8));
 
@@ -90,6 +90,7 @@ public class AppKeyAndSessionProvider {
             logger.info("{}: Response: {}", host, sessionDetails);
 
         } catch (Exception e) {
+            logger.error(e.getMessage(), e);
             throw new IOException("SSO Authentication - call failed:", e);
         }
 
