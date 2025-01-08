@@ -4,7 +4,9 @@ Sample code for the exchange stream api which provides real-time market and orde
 # Console App
 The console app enables you to explore most of the API functions; please note that:
 
+
 1. Your appkey must be setup for streaming (contact Developer Support  [here](https://betfair-developer-docs.atlassian.net/wiki/spaces/1smk3cen4v3lu3yomq5qye0ni/pages/2687786/Getting+Started)  )
+
 2. Credentials for .net are stored in AppData in plain text
 
 **Note: Use stream-api.betfair.com in production (stream-api-integration.betfair.com is for testing and has no backup).**
