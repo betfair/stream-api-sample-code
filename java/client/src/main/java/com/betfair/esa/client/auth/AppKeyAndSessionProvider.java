@@ -90,7 +90,7 @@ public class AppKeyAndSessionProvider {
             logger.info("{}: Response: {}", host, sessionDetails);
 
         } catch (Exception e) {
-            logger.error(e.getMessage(), e);
+            logger.error("Error while retrieving new session", e);
             throw new IOException("SSO Authentication - call failed:", e);
         }
 
