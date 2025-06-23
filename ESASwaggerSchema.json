@@ -631,6 +631,9 @@
             "SUSPENDED",
             "CLOSED"
           ]
+        },
+        "suspendReason": {
+          "type": "string"
         }
       }
     },
