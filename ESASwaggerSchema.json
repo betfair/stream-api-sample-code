@@ -634,6 +634,12 @@
         },
         "suspendReason": {
           "type": "string"
+        },
+        "betDelayModels": {
+          "type": "set",
+          "items": {
+            "type": "string"
+          }
         }
       }
     },
