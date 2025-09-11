@@ -636,10 +636,11 @@
           "type": "string"
         },
         "betDelayModels": {
-          "type": "set",
+          "type": "array",
           "items": {
             "type": "string"
-          }
+          },
+          "uniqueItems": true
         }
       }
     },
