@@ -85,7 +85,7 @@
 
     <properties>
         <swagger.annotations.version>2.2.3</swagger.annotations.version>
-        <jackson.version>2.13.5</jackson.version>
+        <jackson.version>2.22.0</jackson.version>
         <awaitility.version>1.7.0</awaitility.version>
         <slf4j.version>2.0.6</slf4j.version>
         <maven.compiler.plugin.version>3.10.1</maven.compiler.plugin.version>
